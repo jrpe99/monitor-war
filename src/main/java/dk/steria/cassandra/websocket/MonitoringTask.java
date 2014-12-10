@@ -11,7 +11,7 @@ import javax.websocket.Session;
 
 /**
  *
- * @author jorperss
+ * @author Jörgen Persson
  */
 class MonitoringTask extends TimerTask {
     private List<Session> sessionList = new CopyOnWriteArrayList<>();
@@ -29,7 +29,13 @@ class MonitoringTask extends TimerTask {
         for(Session session: this.sessionList) {
             WebSocketHelper.send(session, jsonResult);
         }
-    }
+
+        jsonResult = dao.getHttpFailure(conn);
+        
+        for(Session session: this.sessionList) {
+            WebSocketHelper.send(session, jsonResult);
+        }
+}
 
     @Override
     public boolean cancel() {

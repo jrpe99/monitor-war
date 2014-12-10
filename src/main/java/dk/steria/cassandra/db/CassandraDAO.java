@@ -7,17 +7,23 @@ import java.util.List;
 
 /**
  *
- * @author jorperss
+ * @author Jörgen Persson
  */
 public class CassandraDAO {
     public String getHttpSuccess(ConnectionHandler conn) {
         String cql = "SELECT ip_address, successful_requests from httpaccess.http_success";
         ResultSet resultList = conn.execute(cql);
-        List<Row> allRows = resultList.all();
+        List<Row> rowList = resultList.all();
+        ResultAdapter.sort(rowList, "successful_requests");
 
-        for (Row row : allRows) {
-            System.out.println(String.format("%-30s\t%-20s", row.getString("ip_address"), row.getLong("successful_requests")));
-        }
-        return ResultAdapter.toJSON(allRows);
+        return ResultAdapter.httpSuccessToJSON(rowList);
+    }
+    public String getHttpFailure(ConnectionHandler conn) {
+        String cql = "SELECT ip_address, failed_requests from httpaccess.http_failure";
+        ResultSet resultList = conn.execute(cql);
+        List<Row> rowList = resultList.all();
+        ResultAdapter.sort(rowList, "failed_requests");
+        
+        return ResultAdapter.httpFailureToJSON(rowList);
     }
 }

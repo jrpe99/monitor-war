@@ -31,6 +31,9 @@ public class HTTPAccessHandler {
                 String url = SimulationConstants.urlList.get(index);
                 
                 logHttpAccess(conn, httpStatus, ipAddress, action, url);
+                
+                index = random.nextInt(SimulationConstants.actionList.size());
+                
                 if(httpStatus.equals("200")) {
                     logHttpSuccess(conn, ipAddress);
                 } else {

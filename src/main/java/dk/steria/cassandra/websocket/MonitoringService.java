@@ -5,7 +5,7 @@ import javax.websocket.Session;
 
 /**
  *
- * @author jorperss
+ * @author Jörgen Persson
  */
 class MonitoringService {
     private final Timer monitorTimer = new Timer();

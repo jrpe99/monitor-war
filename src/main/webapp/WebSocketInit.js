@@ -18,12 +18,23 @@ function initWebSocket() {
     websocket.onopen = function(evt) {
     };
     websocket.onmessage = function(evt) {
-        var data = JSON.parse(evt.data).graph;
-        $("#monitor-holder").html("").html('<canvas id="monitor-area" width="700" height="700"></canvas>');
-        var ctx = $("#monitor-area").get(0).getContext("2d");
-        graph = new Chart(ctx).PolarArea(data,{
-            animateRotate : false
-        });
+        var httpSuccess = JSON.parse(evt.data).successful_requests;
+        if (typeof httpSuccess !== 'undefined') {
+            $("#success-monitor-holder").html("").html('<canvas id="success-monitor-area" width="400" height="400"></canvas>');
+            var ctx = $("#success-monitor-area").get(0).getContext("2d");
+            graph = new Chart(ctx).PolarArea(httpSuccess,{
+                animateRotate : false
+            });
+        }
+
+        var httpFailure = JSON.parse(evt.data).failed_requests;
+        if (typeof httpFailure !== 'undefined') {
+            $("#failed-monitor-holder").html("").html('<canvas id="failed-monitor-area" width="400" height="400"></canvas>');
+            var ctx = $("#failed-monitor-area").get(0).getContext("2d");
+            graph = new Chart(ctx).PolarArea(httpFailure,{
+                animateRotate : false
+            });
+        }
     };
     websocket.onerror = function(evt) {
         onError(evt);
