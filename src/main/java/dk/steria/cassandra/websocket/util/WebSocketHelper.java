@@ -14,6 +14,7 @@ public class WebSocketHelper {
     public static void send(Session session, String msg) {
         try {
             System.out.println("Send to session : " + session.getId());
+            System.out.println("Message : " + msg);
             session.getBasicRemote().sendObject(msg);
         } catch (IOException | EncodeException ex) {
             Logger.getLogger(WebSocketHelper.class.getName()).log(Level.SEVERE, null, ex);

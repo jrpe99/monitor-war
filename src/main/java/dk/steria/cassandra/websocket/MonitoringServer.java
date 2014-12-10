@@ -1,7 +1,5 @@
 package dk.steria.cassandra.websocket;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.websocket.CloseReason;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
@@ -17,15 +15,13 @@ public class MonitoringServer {
     private static final MonitoringService monitorService = MonitoringService.getInstance();
             
     @OnOpen
-    public void handleOpenConnection(Session session, CloseReason reason) {
-        monitorService.start(1000);
+    public void handleOpenConnection(Session session) {
+        monitorService.addSession(session);
     }
 
     @OnClose
     public void handleClosedConnection(Session session, CloseReason reason) {
-        if(session.getOpenSessions().isEmpty()) {
-            monitorService.stop();
-        }
+        monitorService.removeSession(session);
     }
 
     @OnMessage

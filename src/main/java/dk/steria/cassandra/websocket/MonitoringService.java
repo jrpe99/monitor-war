@@ -1,7 +1,5 @@
 package dk.steria.cassandra.websocket;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import javax.websocket.Session;
 
@@ -11,12 +9,13 @@ import javax.websocket.Session;
  */
 class MonitoringService {
     private final Timer monitorTimer = new Timer();
-    private List<Session> sessionList = new ArrayList<>();
     private boolean started = false;
     private static MonitoringService instance = null;
-    
+    private MonitoringTask monitoringTask = null;
+
     private MonitoringService() {
-        
+        this.monitoringTask = new MonitoringTask();
+        start(1000);
     }
     
     public static MonitoringService getInstance() {
@@ -26,22 +25,22 @@ class MonitoringService {
         return instance;
     }
     
-    synchronized void addSession(Session session) {
-        sessionList.add(session);
+    void addSession(Session session) {
+        this.monitoringTask.addSession(session);
     }
     
-    synchronized void removeSession(Session session) {
-        sessionList.remove(session);
+    void removeSession(Session session) {
+        this.monitoringTask.removeSession(session);
     }
     
-    synchronized void start(int interval) {
+    private void start(int interval) {
         if(!started) {
-            monitorTimer.schedule(new MonitoringTask(this.sessionList), interval);
+            monitorTimer.schedule(this.monitoringTask, 0, interval);
             started = true;
         }
     }
 
-    synchronized void stop() {
+    private void stop() {
         if(started) {
             started = false;
             monitorTimer.cancel();
