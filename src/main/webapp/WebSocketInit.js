@@ -23,6 +23,7 @@ function initWebSocket() {
             $("#success-monitor-holder").html("").html('<canvas id="success-monitor-area" width="400" height="400"></canvas>');
             var ctx = $("#success-monitor-area").get(0).getContext("2d");
             graph = new Chart(ctx).PolarArea(httpSuccess,{
+                animation: false,
                 animateRotate : false
             });
         }
@@ -32,6 +33,7 @@ function initWebSocket() {
             $("#failed-monitor-holder").html("").html('<canvas id="failed-monitor-area" width="400" height="400"></canvas>');
             var ctx = $("#failed-monitor-area").get(0).getContext("2d");
             graph = new Chart(ctx).PolarArea(httpFailure,{
+                animation: false,
                 animateRotate : false
             });
         }
