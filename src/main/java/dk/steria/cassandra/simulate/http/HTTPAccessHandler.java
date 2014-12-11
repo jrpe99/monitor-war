@@ -21,8 +21,10 @@ public class HTTPAccessHandler {
                 int index = random.nextInt(SimulationConstants.httpStatusList.size());
                 String httpStatus = SimulationConstants.httpStatusList.get(index);
                 
-                index = random.nextInt(SimulationConstants.ipAddressList.size());
-                String ipAddress = SimulationConstants.ipAddressList.get(index);
+                index = random.nextInt(9)*10;
+                String ipAddress = "1"+index+".";
+                index = random.nextInt(9)*10;
+                ipAddress = ipAddress + "132.100."+"2"+index;
                 
                 index = random.nextInt(SimulationConstants.actionList.size());
                 String action = SimulationConstants.actionList.get(index);
@@ -37,8 +39,10 @@ public class HTTPAccessHandler {
                 } else {
                     logHttpFailure(conn, ipAddress);
                 }
+                
+                int sleepTime = random.nextInt(100);
                 try {
-                    Thread.sleep(10);
+                    Thread.sleep(sleepTime);
                 } catch (InterruptedException e) {
                 }
             }

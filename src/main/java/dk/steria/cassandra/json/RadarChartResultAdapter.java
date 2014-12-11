@@ -52,7 +52,7 @@ public class RadarChartResultAdapter {
             json.append("\"datasets\": [");
             json.append("{");
             json.append("   \"label\": \"").append(httpCountField).append("\",");
-            json.append("   \"fillColor\": \"rgba(220,220,220,0.2)\",");
+            json.append("   \"fillColor\": \"rgba(0,222,0,0.2)\",");
             json.append("   \"strokeColor\": \"rgba(220,220,220,1)\",");
             json.append("   \"pointColor\": \"rgba(220,220,220,1)\",");
             json.append("   \"pointStrokeColor\": \"#fff\",");

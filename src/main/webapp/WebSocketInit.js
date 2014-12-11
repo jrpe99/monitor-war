@@ -45,7 +45,7 @@ function initWebSocket() {
             var dataset = json.dataset;
             if (dataset === 'successful_requests') {
                 var httpSuccess = json.data;
-                $("#radar-success-monitor-holder").html("").html('<canvas id="radar-success-monitor-area" width="400" height="400"></canvas>');
+                $("#radar-success-monitor-holder").html("").html('<canvas id="radar-success-monitor-area" width="600" height="600"></canvas>');
                 var ctx = $("#radar-success-monitor-area").get(0).getContext("2d");
                 graph = new Chart(ctx).Radar(httpSuccess,{
                     animation: false
@@ -54,7 +54,7 @@ function initWebSocket() {
 
             if (dataset === 'failed_requests') {
                 var httpFailure = json.data;
-                $("#radar-failed-monitor-holder").html("").html('<canvas id="radar-failed-monitor-area" width="400" height="400"></canvas>');
+                $("#radar-failed-monitor-holder").html("").html('<canvas id="radar-failed-monitor-area" width="600" height="600"></canvas>');
                 var ctx = $("#radar-failed-monitor-area").get(0).getContext("2d");
                 graph = new Chart(ctx).Radar(httpFailure,{
                     animation: false
