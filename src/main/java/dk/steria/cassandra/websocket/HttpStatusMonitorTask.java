@@ -1,0 +1,50 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dk.steria.cassandra.websocket;
+
+import com.datastax.driver.core.Row;
+import dk.steria.cassandra.db.CassandraDAO;
+import dk.steria.cassandra.json.PieChartResultAdapter;
+import dk.steria.cassandra.json.RadarChartResultAdapter;
+import dk.steria.cassandra.json.ResultAdapterHelper;
+import dk.steria.cassandra.websocket.util.WebSocketHelper;
+import java.util.List;
+import javax.websocket.Session;
+
+/**
+ *
+ * @author jorperss
+ */
+public class HttpStatusMonitorTask extends MonitoringTask {
+
+    public HttpStatusMonitorTask(int timeInterval) {
+        super(timeInterval);
+    }
+    
+    @Override
+    public void run() {
+        connectToCassandra();
+        
+        CassandraDAO dao = new CassandraDAO();
+
+        List<Row> rowList = dao.getHttpSuccess(conn);
+        ResultAdapterHelper.sortOnLongField(rowList, "successful_requests");
+        String successPieChartJSONResult = PieChartResultAdapter.httpSuccessToJSON(rowList);
+        String successRadarChartJSONResult = RadarChartResultAdapter.httpSuccessToJSON(rowList);
+
+        rowList = dao.getHttpFailure(conn);
+        ResultAdapterHelper.sortOnLongField(rowList, "failed_requests");
+        String failedPieChartJSONResult = PieChartResultAdapter.httpFailureToJSON(rowList);
+        String failedRadarChartJSONResult = RadarChartResultAdapter.httpFailureToJSON(rowList);
+
+        for(Session session: this.sessionList) {
+            WebSocketHelper.send(session, successPieChartJSONResult);
+            WebSocketHelper.send(session, successRadarChartJSONResult);
+            WebSocketHelper.send(session, failedPieChartJSONResult);
+            WebSocketHelper.send(session, failedRadarChartJSONResult);
+        }
+    }
+}

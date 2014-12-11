@@ -1,5 +1,7 @@
 package dk.steria.cassandra.websocket;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import javax.websocket.Session;
 
@@ -9,13 +11,12 @@ import javax.websocket.Session;
  */
 class MonitoringService {
     private final Timer monitorTimer = new Timer();
-    private boolean started = false;
     private static MonitoringService instance = null;
-    private MonitoringTask monitoringTask = null;
+    private final List<MonitoringTask> monitoringTaskList = new ArrayList<>();
 
     private MonitoringService() {
-        this.monitoringTask = new MonitoringTask();
-        start(1000);
+        this.monitoringTaskList.add(new HttpStatusMonitorTask(1000));
+        start();
     }
     
     public static MonitoringService getInstance() {
@@ -25,26 +26,26 @@ class MonitoringService {
         return instance;
     }
     
-    void addSession(Session session) {
-        this.monitoringTask.addSession(session);
+    void stop() {
+        monitorTimer.cancel();
+        monitorTimer.purge();
     }
-    
-    void removeSession(Session session) {
-        this.monitoringTask.removeSession(session);
-    }
-    
-    private void start(int interval) {
-        if(!started) {
-            monitorTimer.schedule(this.monitoringTask, 0, interval);
-            started = true;
+
+    private void start() {
+        for (MonitoringTask monitoringTask : monitoringTaskList) {
+            monitorTimer.schedule(monitoringTask, 0, monitoringTask.getTimeInterval());
         }
     }
 
-    private void stop() {
-        if(started) {
-            started = false;
-            monitorTimer.cancel();
-            monitorTimer.purge();
+    void addSession(Session session) {
+        for (MonitoringTask monitoringTask : monitoringTaskList) {
+            monitoringTask.addSession(session);
+        }
+    }
+    
+    void removeSession(Session session) {
+        for (MonitoringTask monitoringTask : monitoringTaskList) {
+            monitoringTask.removeSession(session);
         }
     }
 }
