@@ -1,13 +1,36 @@
-package dk.steria.cassandra.db.json;
+package dk.steria.cassandra.json;
 
 import com.datastax.driver.core.Row;
 import java.util.List;
 
 /**
- *
+ * Generates JSON for Chart.js types Pie & Doughnut and Polar.
+ * JSON example:
+    {"failed_requests": [ 
+            {
+                    "value": 71, 
+                    "color":"#FA000", 
+                    "highlight": "#FF5A5E", 
+                    "label": "223.45.21.56"    
+            },    
+            {        
+                    "value": 52,        
+                    "color":"#FA1700",        
+                    "highlight": "#FF5A5E",        
+                    "label": "10.45.234.56"    
+            },    
+            {        
+                    "value": 50,
+                    "color":"#FA2e00",        
+                    "highlight": "#FF5A5E",        
+                    "label": "142.65.234.56"    
+            }
+            ]
+    }
+ * 
  * @author Jörgen Persson
  */
-public class ResultAdapter {
+public class PieChartResultAdapter {
     public static String httpSuccessToJSON(List<Row> rowList) {
         return toJSON(rowList, "successful_requests", "00", "FA");
     }
@@ -19,10 +42,10 @@ public class ResultAdapter {
     private static String toJSON(List<Row> rowList, String httpCountField,String colorSeed1, String colorSeed2) {
         StringBuilder json = new StringBuilder();
         
-        json.append("{\""+httpCountField+"\": [");
+        json.append("{\"").append(httpCountField).append("\": [");
 
         if(!rowList.isEmpty()) {
-            sort(rowList, httpCountField);
+            ResultAdapterHelper.sortOnLongField(rowList, httpCountField);
 
             int index = 0;
             int size = rowList.size();
@@ -56,38 +79,5 @@ public class ResultAdapter {
         json.append("        \"highlight\": \"#FF5A5E\",");
         json.append("        \"label\": \"").append(ipAddress).append("\"");
         json.append("    }");
-    }
-
-    public static void sort(List<Row> rowList, String onField) {
-        rowList.sort((row1, row2)-> {
-            Long field1 = row1.getLong(onField);
-            Long field2 = row2.getLong(onField);
-            return field2.compareTo(field1);
-        });
-    }
-
-    public String toJSONTestData() {
-        StringBuilder msg = new StringBuilder();
-        msg.append("{\"graph\": [");
-        msg.append("    {");
-        msg.append("        \"value\": 300,");
-        msg.append("        \"color\":\"#F7464A\",");
-        msg.append("        \"highlight\": \"#FF5A5E\",");
-        msg.append("        \"label\": \"Red\"");
-        msg.append("    },");
-        msg.append("    {");
-        msg.append("        \"value\": 50,");
-        msg.append("        \"color\":\"#46BFBD\",");
-        msg.append("        \"highlight\": \"#5AD3D1\",");
-        msg.append("        \"label\": \"Green\"");
-        msg.append("    },");
-        msg.append("    {");
-        msg.append("        \"value\": 100,");
-        msg.append("        \"color\":\"#949FB1\",");
-        msg.append("        \"highlight\": \"#A8B3C5\",");
-        msg.append("        \"label\": \"Grey\"");
-        msg.append("    }");
-        msg.append("]}");
-        return msg.toString();
     }
 }

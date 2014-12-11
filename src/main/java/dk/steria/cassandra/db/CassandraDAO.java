@@ -2,7 +2,8 @@ package dk.steria.cassandra.db;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
-import dk.steria.cassandra.db.json.ResultAdapter;
+import dk.steria.cassandra.json.PieChartResultAdapter;
+import dk.steria.cassandra.json.ResultAdapterHelper;
 import java.util.List;
 
 /**
@@ -14,16 +15,16 @@ public class CassandraDAO {
         String cql = "SELECT ip_address, successful_requests from httpaccess.http_success";
         ResultSet resultList = conn.execute(cql);
         List<Row> rowList = resultList.all();
-        ResultAdapter.sort(rowList, "successful_requests");
+        ResultAdapterHelper.sortOnLongField(rowList, "successful_requests");
 
-        return ResultAdapter.httpSuccessToJSON(rowList);
+        return PieChartResultAdapter.httpSuccessToJSON(rowList);
     }
     public String getHttpFailure(ConnectionHandler conn) {
         String cql = "SELECT ip_address, failed_requests from httpaccess.http_failure";
         ResultSet resultList = conn.execute(cql);
         List<Row> rowList = resultList.all();
-        ResultAdapter.sort(rowList, "failed_requests");
+        ResultAdapterHelper.sortOnLongField(rowList, "failed_requests");
         
-        return ResultAdapter.httpFailureToJSON(rowList);
+        return PieChartResultAdapter.httpFailureToJSON(rowList);
     }
 }
