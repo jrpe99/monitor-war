@@ -6,7 +6,9 @@ import java.util.List;
 /**
  * Generates JSON for Chart.js types Pie & Doughnut and Polar.
  * JSON example:
-    {"failed_requests": [ 
+    {	
+        "chart": "pie",
+	"failed_requests": [ 
             {
                     "value": 71, 
                     "color":"#FA000", 
@@ -42,11 +44,11 @@ public class PieChartResultAdapter {
     private static String toJSON(List<Row> rowList, String httpCountField,String colorSeed1, String colorSeed2) {
         StringBuilder json = new StringBuilder();
         
-        json.append("{\"").append(httpCountField).append("\": [");
+        json.append("{");
+        json.append("\"chart\": \"pie\",");
+        json.append("\"").append(httpCountField).append("\": [");
 
         if(!rowList.isEmpty()) {
-            ResultAdapterHelper.sortOnLongField(rowList, httpCountField);
-
             int index = 0;
             int size = rowList.size();
             int colorIndex = 254 / size;

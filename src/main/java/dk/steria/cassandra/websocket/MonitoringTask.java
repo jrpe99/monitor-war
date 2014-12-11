@@ -1,9 +1,12 @@
 package dk.steria.cassandra.websocket;
 
+import com.datastax.driver.core.Row;
 import dk.steria.cassandra.db.CassandraDAO;
 import dk.steria.cassandra.db.ConnectionHandler;
+import dk.steria.cassandra.json.PieChartResultAdapter;
+import dk.steria.cassandra.json.RadarChartResultAdapter;
+import dk.steria.cassandra.json.ResultAdapterHelper;
 import dk.steria.cassandra.websocket.util.WebSocketHelper;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -24,18 +27,24 @@ class MonitoringTask extends TimerTask {
         }
         
         CassandraDAO dao = new CassandraDAO();
-        String jsonResult = dao.getHttpSuccess(conn);
-        
-        for(Session session: this.sessionList) {
-            WebSocketHelper.send(session, jsonResult);
-        }
 
-        jsonResult = dao.getHttpFailure(conn);
-        
+        List<Row> rowList = dao.getHttpSuccess(conn);
+        ResultAdapterHelper.sortOnLongField(rowList, "successful_requests");
+        String successPieChartJSONResult = PieChartResultAdapter.httpSuccessToJSON(rowList);
+        String successRadarChartJSONResult = RadarChartResultAdapter.httpSuccessToJSON(rowList);
+
+        rowList = dao.getHttpFailure(conn);
+        ResultAdapterHelper.sortOnLongField(rowList, "failed_requests");
+        String failedPieChartJSONResult = PieChartResultAdapter.httpFailureToJSON(rowList);
+        String failedRadarChartJSONResult = RadarChartResultAdapter.httpFailureToJSON(rowList);
+
         for(Session session: this.sessionList) {
-            WebSocketHelper.send(session, jsonResult);
+            WebSocketHelper.send(session, successPieChartJSONResult);
+            WebSocketHelper.send(session, successRadarChartJSONResult);
+            WebSocketHelper.send(session, failedPieChartJSONResult);
+            WebSocketHelper.send(session, failedRadarChartJSONResult);
         }
-}
+    }
 
     @Override
     public boolean cancel() {
