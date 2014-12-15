@@ -36,23 +36,23 @@ public class RadarChartResultAdapter {
         return toJSON(rowList, "failed_requests");
     }
     
-    private static String toJSON(List<Row> rowList, String httpCountField) {
+    private static String toJSON(List<Row> rowList, String dataSet) {
         StringBuilder json = new StringBuilder();
 
         json.append("{");
         json.append("\"chart\": \"radar\",");
-        json.append("\"dataset\": \"").append(httpCountField).append("\",");
+        json.append("\"dataset\": \"").append(dataSet).append("\",");
         json.append("\"data\": {");
         if(!rowList.isEmpty()) {
             StringBuilder labelList = new StringBuilder(); 
             StringBuilder dataList = new StringBuilder();
-            createLists(rowList, httpCountField, labelList, dataList);
+            createLists(rowList, labelList, dataList);
             
             json.append("\"labels\":").append(labelList).append(",");
             json.append("\"datasets\": [");
             json.append("{");
-            json.append("   \"label\": \"").append(httpCountField).append("\",");
-            json.append("   \"fillColor\": \"rgba(0,222,0,0.2)\",");
+            json.append("   \"label\": \"").append(dataSet).append("\",");
+            json.append("   \"fillColor\": \"rgba(50,190,0,0.2)\",");
             json.append("   \"strokeColor\": \"rgba(220,220,220,1)\",");
             json.append("   \"pointColor\": \"rgba(220,220,220,1)\",");
             json.append("   \"pointStrokeColor\": \"#fff\",");
@@ -69,7 +69,7 @@ public class RadarChartResultAdapter {
         return json.toString();
     }
 
-    private static void createLists(List<Row> rowList, String httpCountField, StringBuilder labelList, StringBuilder dataList) {
+    private static void createLists(List<Row> rowList, StringBuilder labelList, StringBuilder dataList) {
         int index = 0;
         int size = rowList.size();
         labelList.append("[");
@@ -77,11 +77,11 @@ public class RadarChartResultAdapter {
         while(index < size) {
             Row row = rowList.get(index);
 
-            Long httpCount = row.getLong(httpCountField);
             String ipAddress = row.getString("ip_address");
+            Long httpRequestCount = row.getLong("requests");
 
             labelList.append("\"").append(ipAddress).append("\"");
-            dataList.append(httpCount);
+            dataList.append(httpRequestCount);
 
             index++; 
             if(index < size){

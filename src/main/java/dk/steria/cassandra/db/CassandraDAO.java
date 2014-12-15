@@ -10,12 +10,17 @@ import java.util.List;
  */
 public class CassandraDAO {
     public List<Row> getHttpSuccess(ConnectionHandler conn) {
-        String cql = "SELECT ip_address, successful_requests from httpaccess.http_success";
+        String cql = "SELECT ip_address, requests from httpaccess.http_success";
         ResultSet resultList = conn.execute(cql);
         return resultList.all();
     }
     public List<Row> getHttpFailure(ConnectionHandler conn) {
-        String cql = "SELECT ip_address, failed_requests from httpaccess.http_failure";
+        String cql = "SELECT ip_address, requests from httpaccess.http_failure";
+        ResultSet resultList = conn.execute(cql);
+        return resultList.all();
+    }
+    public List<Row> getHttpAccessInterval(ConnectionHandler conn, int hour) {
+        String cql = "SELECT * from httpaccess.http_access where hour = "+hour;
         ResultSet resultList = conn.execute(cql);
         return resultList.all();
     }

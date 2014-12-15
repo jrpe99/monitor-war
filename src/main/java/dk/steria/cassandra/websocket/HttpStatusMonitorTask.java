@@ -31,12 +31,12 @@ public class HttpStatusMonitorTask extends MonitoringTask {
         CassandraDAO dao = new CassandraDAO();
 
         List<Row> rowList = dao.getHttpSuccess(conn);
-        ResultAdapterHelper.sortOnLongField(rowList, "successful_requests");
+        ResultAdapterHelper.sortOnLongField(rowList, "requests");
         String successPieChartJSONResult = PieChartResultAdapter.httpSuccessToJSON(rowList);
         String successRadarChartJSONResult = RadarChartResultAdapter.httpSuccessToJSON(rowList);
 
         rowList = dao.getHttpFailure(conn);
-        ResultAdapterHelper.sortOnLongField(rowList, "failed_requests");
+        ResultAdapterHelper.sortOnLongField(rowList, "requests");
         String failedPieChartJSONResult = PieChartResultAdapter.httpFailureToJSON(rowList);
         String failedRadarChartJSONResult = RadarChartResultAdapter.httpFailureToJSON(rowList);
 

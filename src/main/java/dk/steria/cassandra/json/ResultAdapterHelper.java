@@ -15,4 +15,16 @@ public class ResultAdapterHelper {
             return field2.compareTo(field1);
         });
     }
+    
+    public static double round(double num, int multipleOf) {
+        return Math.floor((num +  (double)multipleOf / 2) / multipleOf) * multipleOf;
+    }    
+    
+    public static void main(String[] args) {
+        System.out.println("3.5 round to 5: " + ResultAdapterHelper.round(3, 5));
+        System.out.println("12 round to 5: " + ResultAdapterHelper.round(9, 10));
+        System.out.println("11 round to 5: "+ ResultAdapterHelper.round(11, 15));
+        System.out.println("5 round to 5: " + ResultAdapterHelper.round(5, 20));
+        System.out.println("6.2 round to 5: " + ResultAdapterHelper.round(6.2, 25));        
+    }
 }

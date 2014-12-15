@@ -41,12 +41,12 @@ public class PieChartResultAdapter {
         return toJSON(rowList, "failed_requests", "FA", "00");
     }
     
-    private static String toJSON(List<Row> rowList, String httpCountField,String colorSeed1, String colorSeed2) {
+    private static String toJSON(List<Row> rowList, String dataSet,String colorSeed1, String colorSeed2) {
         StringBuilder json = new StringBuilder();
         
         json.append("{");
         json.append("\"chart\": \"pie\",");
-        json.append("\"").append(httpCountField).append("\": [");
+        json.append("\"").append(dataSet).append("\": [");
 
         if(!rowList.isEmpty()) {
             int index = 0;
@@ -58,10 +58,10 @@ public class PieChartResultAdapter {
                 String hexColor = colorSeed1 + Integer.toHexString(color) + colorSeed2;
                 Row row = rowList.get(index);
 
-                Long httpCount = row.getLong(httpCountField);
                 String ipAddress = row.getString("ip_address");
+                Long httpRequestCount = row.getLong("requests");
 
-                createJSONObject(json, ipAddress, httpCount, hexColor);
+                createJSONObject(json, ipAddress, httpRequestCount, hexColor);
                 
                 index++; 
                 color=color+colorIndex;
