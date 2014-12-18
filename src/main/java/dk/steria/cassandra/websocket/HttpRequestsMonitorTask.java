@@ -18,9 +18,9 @@ import javax.websocket.Session;
  *
  * @author jorperss
  */
-public class HttpStatusMonitorTask extends MonitoringTask {
+public class HttpRequestsMonitorTask extends MonitoringTask {
 
-    public HttpStatusMonitorTask(int timeInterval) {
+    public HttpRequestsMonitorTask(int timeInterval) {
         super(timeInterval);
     }
     
@@ -40,11 +40,11 @@ public class HttpStatusMonitorTask extends MonitoringTask {
         String failedPieChartJSONResult = PieChartResultAdapter.httpFailureToJSON(rowList);
         String failedRadarChartJSONResult = RadarChartResultAdapter.httpFailureToJSON(rowList);
 
-        for(Session session: this.sessionList) {
+        this.sessionList.stream().forEach((session) -> {
             WebSocketHelper.send(session, successPieChartJSONResult);
             WebSocketHelper.send(session, successRadarChartJSONResult);
             WebSocketHelper.send(session, failedPieChartJSONResult);
             WebSocketHelper.send(session, failedRadarChartJSONResult);
-        }
+        });
     }
 }

@@ -20,6 +20,7 @@ function initWebSocket() {
     websocket.onmessage = function(evt) {
         var json = JSON.parse(evt.data);
         var chart = json.chart;
+/*        
         if(chart === 'pie') {
             var httpSuccess = json.successful_requests;
             if (typeof httpSuccess !== 'undefined') {
@@ -41,6 +42,7 @@ function initWebSocket() {
                 });
             }
         }
+*/        
         if(chart === 'radar') {
             var dataset = json.dataset;
             if (dataset === 'successful_requests') {
@@ -61,7 +63,22 @@ function initWebSocket() {
                 });
             }
         }
-        
+        if(chart === 'line') {
+            var dataset = json.dataset;
+            if (dataset === 'requests_per_minute') {
+                var httpSuccess = json.data;
+                $("#pie-success-monitor-holder").html("").html('<canvas id="pie-success-monitor-area" width="800" height="500"></canvas>');
+                var ctx = $("#pie-success-monitor-area").get(0).getContext("2d");
+/*                
+                $("#line-per-minute-monitor-holder").html("").html('<canvas id="monitor-area" width="600" height="600"></canvas>');
+                var ctx = $("monitor-area").get(0).getContext("2d");
+*/
+                graph = new Chart(ctx).Line(httpSuccess,{
+                    animation: false
+                });
+            }
+        }
+
     };
     websocket.onerror = function(evt) {
         onError(evt);

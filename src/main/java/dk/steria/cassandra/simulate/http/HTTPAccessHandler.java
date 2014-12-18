@@ -3,6 +3,12 @@ package dk.steria.cassandra.simulate.http;
 import java.util.Random;
 
 import dk.steria.cassandra.db.ConnectionHandler;
+import java.text.DateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalField;
 import java.util.Calendar;
 
 public class HTTPAccessHandler {
@@ -33,17 +39,27 @@ public class HTTPAccessHandler {
                 index = random.nextInt(SimulationConstants.urlList.size());
                 String url = SimulationConstants.urlList.get(index);
                 
-                Calendar cal = Calendar.getInstance();
-                int hour = cal.get(Calendar.HOUR_OF_DAY);
-                logHttpAccess(conn, hour, httpStatus, ipAddress, action, url, cal.getTimeInMillis());
+                ZonedDateTime now = ZonedDateTime.now().withSecond(0).withNano(0);
+                int hour = now.getHour();
+                long epoch = now.toEpochSecond();
+                
+                logHttpAccess(conn, hour, httpStatus, ipAddress, action, url, epoch);
+
+                DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+                String date = formatter.format(now);
+                
+                formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+                String dateToMinute = formatter.format(now);
                 
                 if(httpStatus.equals("200")) {
                     logHttpSuccess(conn, ipAddress);
+                    logHttpSuccessPerMinute(conn, date, dateToMinute);
                 } else {
-                    logHttpFailure(conn, ipAddress);
+                    logHttpFailed(conn, ipAddress);
+                    logHttpFailedPerMinute(conn, date, dateToMinute);
                 }
                 
-                int sleepTime = random.nextInt(1000);
+                int sleepTime = random.nextInt(500);
                 try {
                     Thread.sleep(sleepTime);
                 } catch (InterruptedException e) {
@@ -59,12 +75,12 @@ public class HTTPAccessHandler {
         cql.append("INSERT INTO httpaccess.http_access (hour,ip_address,http_status,action,url,date_to_minute) ");
         cql.append("VALUES ");
         cql.append("(");
-        cql.append(hour+",");
-        cql.append("'"+ipAddress+"',");
-        cql.append("'"+httpStatus+"',");
-        cql.append("'"+action+"',");
-        cql.append("'"+url+"',");
-        cql.append("'"+time+"'");
+        cql.append(hour).append(",");
+        cql.append("'").append(ipAddress).append("',");
+        cql.append("'").append(httpStatus).append("',");
+        cql.append("'").append(action).append("',");
+        cql.append("'").append(url).append("',");
+        cql.append("'").append(time).append("'");
         cql.append(")");
         conn.execute(cql.toString());
     }
@@ -75,25 +91,48 @@ public class HTTPAccessHandler {
         cql.append("SET ");
         cql.append("requests=requests+1 ");
         cql.append("WHERE ");
-        cql.append("ip_address='"+ipAddress+"'");
+        cql.append("ip_address='").append(ipAddress).append("'");
         conn.execute(cql.toString());
     }
     
-    public void logHttpFailure(ConnectionHandler conn, String ipAddress) {
+    public void logHttpSuccessPerMinute(ConnectionHandler conn, String date, String dateToMinute) {
         StringBuilder cql = new StringBuilder(); 
-        cql.append("UPDATE httpaccess.http_failure ");
+        cql.append("UPDATE httpaccess.http_success_per_minute ");
         cql.append("SET ");
         cql.append("requests=requests+1 ");
         cql.append("WHERE ");
-        cql.append("ip_address='"+ipAddress+"'");
+        cql.append("date='").append(date).append("' and ");
+        cql.append("date_to_minute='").append(dateToMinute).append("'");
         conn.execute(cql.toString());
     }
     
+    public void logHttpFailed(ConnectionHandler conn, String ipAddress) {
+        StringBuilder cql = new StringBuilder(); 
+        cql.append("UPDATE httpaccess.http_failed ");
+        cql.append("SET ");
+        cql.append("requests=requests+1 ");
+        cql.append("WHERE ");
+        cql.append("ip_address='").append(ipAddress).append("'");
+        conn.execute(cql.toString());
+    }
+
+        public void logHttpFailedPerMinute(ConnectionHandler conn, String date, String dateToMinute) {
+        StringBuilder cql = new StringBuilder(); 
+        cql.append("UPDATE httpaccess.http_failed_per_minute ");
+        cql.append("SET ");
+        cql.append("requests=requests+1 ");
+        cql.append("WHERE ");
+        cql.append("date='").append(date).append("' and ");
+        cql.append("date_to_minute='").append(dateToMinute).append("'");
+        conn.execute(cql.toString());
+    }
+    
+
     public void createSchema() {
         ConnectionHandler connectionHandler = new ConnectionHandler();
         try {
             connectionHandler.connect();
-            connectionHandler.execute("CREATE KEYSPACE IF NOT EXISTS httpaccess WITH replication = {'class':'SimpleStrategy', 'replication_factor':3};");
+            connectionHandler.execute("CREATE KEYSPACE IF NOT EXISTS httpaccess WITH replication = {'class':'SimpleStrategy', 'replication_factor':2};");
 
             StringBuilder logHttpAccessTable = new StringBuilder();
             logHttpAccessTable.append("CREATE TABLE IF NOT EXISTS httpaccess.http_access (");
@@ -111,10 +150,19 @@ public class HTTPAccessHandler {
             logSuccessPerTimeSliceTable.append("CREATE TABLE IF NOT EXISTS httpaccess.http_success_per_minute (");
             logSuccessPerTimeSliceTable.append("    date                    TIMESTAMP,");
             logSuccessPerTimeSliceTable.append("    date_to_minute          TIMESTAMP,");
-            logSuccessPerTimeSliceTable.append("    request_count           COUNTER,");
+            logSuccessPerTimeSliceTable.append("    requests                COUNTER,");
             logSuccessPerTimeSliceTable.append("    PRIMARY KEY (date, date_to_minute)");
             logSuccessPerTimeSliceTable.append(") WITH CLUSTERING ORDER BY (date_to_minute DESC)");
             connectionHandler.execute(logSuccessPerTimeSliceTable.toString());
+            
+            StringBuilder logFailedPerTimeSliceTable = new StringBuilder();
+            logFailedPerTimeSliceTable.append("CREATE TABLE IF NOT EXISTS httpaccess.http_failed_per_minute (");
+            logFailedPerTimeSliceTable.append("    date                    TIMESTAMP,");
+            logFailedPerTimeSliceTable.append("    date_to_minute          TIMESTAMP,");
+            logFailedPerTimeSliceTable.append("    requests                COUNTER,");
+            logFailedPerTimeSliceTable.append("    PRIMARY KEY (date, date_to_minute)");
+            logFailedPerTimeSliceTable.append(") WITH CLUSTERING ORDER BY (date_to_minute DESC)");
+            connectionHandler.execute(logFailedPerTimeSliceTable.toString());
             
             StringBuilder logSuccessTable = new StringBuilder();
             logSuccessTable.append("CREATE TABLE IF NOT EXISTS httpaccess.http_success (");
@@ -125,7 +173,7 @@ public class HTTPAccessHandler {
             connectionHandler.execute(logSuccessTable.toString());
             
             StringBuilder logFailureTable = new StringBuilder();
-            logFailureTable.append("CREATE TABLE IF NOT EXISTS httpaccess.http_failure (");
+            logFailureTable.append("CREATE TABLE IF NOT EXISTS httpaccess.http_failed (");
             logFailureTable.append("    ip_address              VARCHAR,");
             logFailureTable.append("    requests                COUNTER,");
             logFailureTable.append("    PRIMARY KEY (ip_address)");

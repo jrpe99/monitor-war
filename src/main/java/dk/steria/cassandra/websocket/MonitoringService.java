@@ -15,7 +15,8 @@ class MonitoringService {
     private final List<MonitoringTask> monitoringTaskList = new ArrayList<>();
 
     private MonitoringService() {
-        this.monitoringTaskList.add(new HttpStatusMonitorTask(1000));
+        this.monitoringTaskList.add(new HttpRequestsMonitorTask(1000));
+        this.monitoringTaskList.add(new HttpRequestsPerMinuteMonitorTask(1000));
         start();
     }
     
