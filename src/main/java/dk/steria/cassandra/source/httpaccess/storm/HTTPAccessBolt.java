@@ -29,9 +29,9 @@ public class HTTPAccessBolt extends BaseRichBolt {
 
     @Override
     public void execute(Tuple tuple) {
-        System.out.println("BOLT Thread : " + Thread.currentThread().getName() + " process HTTP Access");
         List<Object> values = tuple.getValues();
         values.stream().map((value) -> (HTTPAccessTO)value).forEach((to) -> {
+            System.out.println("BOLT Thread : " + Thread.currentThread().getName() + " process HTTP Access IP: " + to.getIpAddress());
             httpAccessDAO.create(to);
         });
         collector.ack(tuple);
