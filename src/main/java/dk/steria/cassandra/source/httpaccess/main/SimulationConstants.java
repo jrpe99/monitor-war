@@ -1,4 +1,4 @@
-package dk.steria.cassandra.simulate.http;
+package dk.steria.cassandra.source.httpaccess.main;
 
 import java.util.ArrayList;
 

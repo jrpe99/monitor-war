@@ -1,7 +1,7 @@
 package dk.steria.cassandra.websocket;
 
 import com.datastax.driver.core.Row;
-import dk.steria.cassandra.db.CassandraDAO;
+import dk.steria.cassandra.db.CassandraReadDAO;
 import dk.steria.cassandra.json.LineChartResultAdapter;
 import dk.steria.cassandra.websocket.util.WebSocketHelper;
 import java.time.ZonedDateTime;
@@ -24,7 +24,7 @@ public class HttpRequestsPerMinuteMonitorTask extends MonitoringTask {
     public void run() {
         connectToCassandra();
         
-        CassandraDAO dao = new CassandraDAO();
+        CassandraReadDAO dao = new CassandraReadDAO(this.conn);
 
         ZonedDateTime now = ZonedDateTime.now().withSecond(0).withNano(0);
         DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
@@ -35,8 +35,8 @@ public class HttpRequestsPerMinuteMonitorTask extends MonitoringTask {
 
         HashMap<String, List<Row>> dataSetMap = new HashMap<>();
         
-        List<Row> successList = dao.getHttpSuccessPerMinute(conn, date, from, to);
-        List<Row> failedList = dao.getHttpFailedPerMinute(conn, date, from, to);
+        List<Row> successList = dao.getHttpSuccessPerMinute(date, from, to);
+        List<Row> failedList = dao.getHttpFailedPerMinute(date, from, to);
         dataSetMap.put("Success", successList);
         dataSetMap.put("Failed", failedList);
         String json = LineChartResultAdapter.toJSON(dataSetMap, 30);

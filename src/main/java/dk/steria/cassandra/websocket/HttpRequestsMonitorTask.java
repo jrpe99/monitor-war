@@ -6,7 +6,7 @@
 package dk.steria.cassandra.websocket;
 
 import com.datastax.driver.core.Row;
-import dk.steria.cassandra.db.CassandraDAO;
+import dk.steria.cassandra.db.CassandraReadDAO;
 import dk.steria.cassandra.json.PieChartResultAdapter;
 import dk.steria.cassandra.json.RadarChartResultAdapter;
 import dk.steria.cassandra.json.ResultAdapterHelper;
@@ -28,14 +28,14 @@ public class HttpRequestsMonitorTask extends MonitoringTask {
     public void run() {
         connectToCassandra();
         
-        CassandraDAO dao = new CassandraDAO();
+        CassandraReadDAO dao = new CassandraReadDAO(this.conn);
 
-        List<Row> rowList = dao.getHttpSuccess(conn);
+        List<Row> rowList = dao.getHttpSuccess();
         ResultAdapterHelper.sortOnLongField(rowList, "requests");
         String successPieChartJSONResult = PieChartResultAdapter.httpSuccessToJSON(rowList);
         String successRadarChartJSONResult = RadarChartResultAdapter.httpSuccessToJSON(rowList);
 
-        rowList = dao.getHttpFailure(conn);
+        rowList = dao.getHttpFailure();
         ResultAdapterHelper.sortOnLongField(rowList, "requests");
         String failedPieChartJSONResult = PieChartResultAdapter.httpFailureToJSON(rowList);
         String failedRadarChartJSONResult = RadarChartResultAdapter.httpFailureToJSON(rowList);
