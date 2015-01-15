@@ -10,8 +10,10 @@ import javax.websocket.Session;
  * @author Jörgen Persson
  */
 class MonitoringService {
+    private static class InstanceHolder {
+        static final MonitoringService instance = new MonitoringService();
+    }
     private final Timer monitorTimer = new Timer();
-    private static MonitoringService instance = null;
     private final List<MonitoringTask> monitoringTaskList = new ArrayList<>();
 
     private MonitoringService() {
@@ -21,10 +23,7 @@ class MonitoringService {
     }
     
     public static MonitoringService getInstance() {
-        if(instance == null) {
-            instance = new MonitoringService();
-        }
-        return instance;
+        return InstanceHolder.instance;
     }
     
     void stop() {
