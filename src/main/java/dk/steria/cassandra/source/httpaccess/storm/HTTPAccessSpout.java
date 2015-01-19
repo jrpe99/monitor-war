@@ -28,7 +28,7 @@ public class HTTPAccessSpout extends BaseRichSpout {
         HTTPAccessTO to = HTTPAccessTOFactory.createSimulated();
         collector.emit(new Values(to));
         System.out.println("SPOUT Thread : " + Thread.currentThread().getName() + " emit new HTTP Access IP : " + to.getIpAddress());
-        int sleepTime = random.nextInt(5000);
+        int sleepTime = random.nextInt(2000);
         try {
             Thread.sleep(sleepTime);
         } catch (InterruptedException e) {

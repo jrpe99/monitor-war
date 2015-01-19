@@ -14,11 +14,13 @@ import javax.websocket.Session;
 public class WebSocketHelper {
     
     public static void sendToAll(List<Session> sessionList, final String... jsonParam) {
-        sessionList.stream().forEach((session) -> {
-            for (String json : jsonParam) {
-                WebSocketHelper.send(session, json);
-            }
-        });
+        if(sessionList.size() > 0) {
+            sessionList.stream().forEach((session) -> {
+                for (String json : jsonParam) {
+                    WebSocketHelper.send(session, json);
+                }
+            });
+        }
     }
     
     public static void send(Session session, String msg) {

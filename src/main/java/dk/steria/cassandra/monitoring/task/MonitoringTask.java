@@ -54,7 +54,10 @@ public abstract class MonitoringTask extends TimerTask {
         return timeInterval;
     }
 
-    public ConnectionHandler getCassandraConnection() {
+    public synchronized ConnectionHandler getCassandraConnection() {
+        if(this.conn == null) {
+            connectToCassandra();
+        }
         return conn;
     }
 
