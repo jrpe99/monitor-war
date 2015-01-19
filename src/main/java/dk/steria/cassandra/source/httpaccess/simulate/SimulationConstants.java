@@ -6,7 +6,7 @@ public class SimulationConstants {
 
     public static final ArrayList<String> HTTP_STATUS_LIST;
     static {
-        HTTP_STATUS_LIST = new ArrayList<String>();        
+        HTTP_STATUS_LIST = new ArrayList<>();        
         HTTP_STATUS_LIST.add("200");
         HTTP_STATUS_LIST.add("200");
         HTTP_STATUS_LIST.add("200");
@@ -35,7 +35,7 @@ public class SimulationConstants {
     
     public static final ArrayList<String> IP_ADDRESS_LIST;
     static {
-        IP_ADDRESS_LIST = new ArrayList<String>();
+        IP_ADDRESS_LIST = new ArrayList<>();
         IP_ADDRESS_LIST.add("10.45.234.56");
         IP_ADDRESS_LIST.add("10.45.234.56");
         IP_ADDRESS_LIST.add("10.45.234.56");
@@ -102,14 +102,14 @@ public class SimulationConstants {
     
     public static final ArrayList<String> ACTION_LIST;
     static {
-        ACTION_LIST = new ArrayList<String>();
+        ACTION_LIST = new ArrayList<>();
         ACTION_LIST.add("POST");
         ACTION_LIST.add("GET");
     }
     
     public static final ArrayList<String> URL_LIST;
     static {
-        URL_LIST = new ArrayList<String>();
+        URL_LIST = new ArrayList<>();
         URL_LIST.add("/test");
         URL_LIST.add("/test?p=34");
         URL_LIST.add("/test/all?f=456");

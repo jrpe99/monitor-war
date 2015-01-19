@@ -1,11 +1,10 @@
-package dk.steria.cassandra.json;
+package dk.steria.cassandra.adapter.json;
 
 import com.datastax.driver.core.Row;
 import java.util.List;
 
 /**
- *
- * @author jorperss
+ * @author Jörgen Persson
  */
 public class ResultAdapterHelper {
     public static void sortOnLongField(List<Row> rowList, String onField) {
@@ -21,10 +20,10 @@ public class ResultAdapterHelper {
     }    
     
     public static void main(String[] args) {
-        System.out.println("3.5 round to 5: " + ResultAdapterHelper.round(3, 5));
-        System.out.println("12 round to 5: " + ResultAdapterHelper.round(9, 10));
-        System.out.println("11 round to 5: "+ ResultAdapterHelper.round(11, 15));
-        System.out.println("5 round to 5: " + ResultAdapterHelper.round(5, 20));
-        System.out.println("6.2 round to 5: " + ResultAdapterHelper.round(6.2, 25));        
+        System.out.println("3 round to 5: " + ResultAdapterHelper.round(3, 5));
+        System.out.println("9 round to 10: " + ResultAdapterHelper.round(9, 10));
+        System.out.println("11 round to 15: "+ ResultAdapterHelper.round(11, 15));
+        System.out.println("5 round to 20: " + ResultAdapterHelper.round(5, 20));
+        System.out.println("6.2 round to 10: " + ResultAdapterHelper.round(6.2, 10));        
     }
 }

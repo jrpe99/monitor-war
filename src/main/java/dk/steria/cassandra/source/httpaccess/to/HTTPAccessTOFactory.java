@@ -1,7 +1,6 @@
 package dk.steria.cassandra.source.httpaccess.to;
 
 import dk.steria.cassandra.source.httpaccess.simulate.SimulationConstants;
-import dk.steria.cassandra.source.httpaccess.to.HTTPAccessTO;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;

@@ -63,18 +63,4 @@ public class HTTPAccessSchema {
             connectionHandler.close();
         }
     }
-
-//    public void querySchema() {
-//        CassandraConnectionHandler connectionHandler = new CassandraConnectionHandler();
-////        ResultSet results = session.execute("SELECT * FROM simplex.playlists "
-////                + "WHERE id = 2cc9ccb7-6221-4ccb-8387-f22b6a1b354d;");
-//        ResultSet results = session.execute("SELECT * FROM simplex.playlists;");
-//        System.out.println(String.format("%-30s\t%-20s\t%-20s\n%s", "title", "album", "artist",
-//                "-------------------------------+-----------------------+--------------------"));
-//        for (Row row : results) {
-//            System.out.println(String.format("%-30s\t%-20s\t%-20s", row.getString("title"), row.getString("album"),
-//                    row.getString("artist")));
-//        }
-//        System.out.println();
-//    }
 }

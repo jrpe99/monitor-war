@@ -1,4 +1,4 @@
-package dk.steria.cassandra.json;
+package dk.steria.cassandra.adapter.json;
 
 import com.datastax.driver.core.Row;
 import java.util.HashMap;

@@ -1,11 +1,13 @@
-package dk.steria.cassandra.source.httpaccess.storm;
+package dk.steria.cassandra.source.httpaccess.simulate;
 
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;
 import backtype.storm.topology.TopologyBuilder;
 import backtype.storm.utils.Utils;
+import dk.steria.cassandra.source.httpaccess.storm.HTTPAccessBolt;
+import dk.steria.cassandra.source.httpaccess.storm.HTTPAccessSpout;
 
-public class HTTPAccessTopology {
+public class StromHTTPAccessSimulator {
     public static void main(String[] args) {
         TopologyBuilder builder = new TopologyBuilder();
 

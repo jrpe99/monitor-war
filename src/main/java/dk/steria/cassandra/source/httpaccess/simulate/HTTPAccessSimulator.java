@@ -1,4 +1,4 @@
-package dk.steria.cassandra.source.httpaccess.main;
+package dk.steria.cassandra.source.httpaccess.simulate;
 
 import java.util.Random;
 
