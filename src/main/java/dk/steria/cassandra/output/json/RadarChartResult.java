@@ -1,4 +1,4 @@
-package dk.steria.cassandra.adapter.json;
+package dk.steria.cassandra.output.json;
 
 import com.datastax.driver.core.Row;
 import java.util.List;
@@ -27,7 +27,7 @@ import java.util.List;
  * 
  * @author Jörgen Persson
  */
-public class RadarChartResultAdapter {
+public class RadarChartResult {
     public static String httpSuccessToJSON(List<Row> rowList) {
         return toJSON(rowList, "successful_requests");
     }

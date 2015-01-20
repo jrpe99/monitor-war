@@ -1,4 +1,4 @@
-package dk.steria.cassandra.adapter.json;
+package dk.steria.cassandra.output.json;
 
 import com.datastax.driver.core.Row;
 import java.util.HashMap;
@@ -29,7 +29,7 @@ import java.util.Map;
  * 
  * @author Jörgen Persson
  */
-public class LineChartResultAdapter {
+public class LineChartResult {
     public static String toJSON(HashMap<String,List<Row>> dataSetMap, int period) {
         StringBuilder json = new StringBuilder();
         json.append("{");

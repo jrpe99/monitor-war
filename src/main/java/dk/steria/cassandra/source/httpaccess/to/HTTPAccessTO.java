@@ -16,47 +16,63 @@ public class HTTPAccessTO {
         return httpStatus;
     }
 
-    public void setHttpStatus(String httpStatus) {
-        this.httpStatus = httpStatus;
-    }
-
     public String getIpAddress() {
         return ipAddress;
-    }
-
-    public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
     }
 
     public String getAction() {
         return action;
     }
 
-    public void setAction(String action) {
-        this.action = action;
-    }
-
     public String getUrl() {
         return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public String getDate() {
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
     public String getDateToMinute() {
         return dateToMinute;
     }
-
-    public void setDateToMinute(String dateToMinute) {
-        this.dateToMinute = dateToMinute;
+    
+    private HTTPAccessTO(HTTPAccessTOBuilder builder) {
+        this.httpStatus = builder.httpStatus;
+        this.ipAddress = builder.ipAddress;
+        this.date = builder.date;
+        this.dateToMinute = builder.dateToMinute;
+        this.action = builder.action;
+        this.url = builder.url;
     }
+    
+    public static class HTTPAccessTOBuilder{
+        private String httpStatus;
+        private String ipAddress;
+        private String date;
+        private String dateToMinute;    
+
+        private String action = "GET";
+        private String url = "/";
+        
+        public HTTPAccessTOBuilder(String httpStatus, String ipAddress, String date, String dateToMinute) {
+            this.httpStatus = httpStatus;
+            this.ipAddress = ipAddress;
+            this.date = date;
+            this.dateToMinute = dateToMinute;
+        }
+
+        public HTTPAccessTOBuilder setAction(String action) {
+            this.action = action;
+            return this;
+        }
+
+        public HTTPAccessTOBuilder setUrl(String url) {
+            this.url = url;
+            return this;
+        }
+        
+        public HTTPAccessTO build() {
+            return new HTTPAccessTO(this);
+        }
+    }    
 }

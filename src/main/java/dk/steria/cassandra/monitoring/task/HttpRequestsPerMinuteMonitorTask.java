@@ -2,7 +2,7 @@ package dk.steria.cassandra.monitoring.task;
 
 import com.datastax.driver.core.Row;
 import dk.steria.cassandra.db.CassandraReadDAO;
-import dk.steria.cassandra.adapter.json.LineChartResultAdapter;
+import dk.steria.cassandra.output.json.LineChartResult;
 import dk.steria.cassandra.websocket.util.WebSocketHelper;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -48,7 +48,7 @@ public class HttpRequestsPerMinuteMonitorTask extends MonitoringTask {
         dataSetMap.put("Failed", failedList);
         
         /* Get JSON for the Line chart */
-        String json = LineChartResultAdapter.toJSON(dataSetMap, 30);
+        String json = LineChartResult.toJSON(dataSetMap, 30);
         
         /* Send to all clients */
         WebSocketHelper.sendToAll(this.getSessionList(), json);
