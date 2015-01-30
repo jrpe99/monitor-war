@@ -19,8 +19,8 @@ public class ConnectionHandler {
     public void connect() {
         Builder builder = Cluster.builder();
         builder.addContactPoint("192.168.15.130");
-        builder.addContactPoint("192.168.15.131");
-        builder.addContactPoint("192.168.15.132");
+        //builder.addContactPoint("192.168.15.131");
+        //builder.addContactPoint("192.168.15.132");
         cluster = builder.build();
         
         Metadata metadata = cluster.getMetadata();
