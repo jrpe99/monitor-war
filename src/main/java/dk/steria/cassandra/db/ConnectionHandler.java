@@ -7,7 +7,7 @@ import com.datastax.driver.core.Host;
 import com.datastax.driver.core.Metadata;
 import com.datastax.driver.core.Session;
 
-public class ConnectionHandler {
+public class ConnectionHandler implements AutoCloseable {
 
     private Cluster cluster;
     private Session session;
@@ -36,8 +36,14 @@ public class ConnectionHandler {
         return session.execute(cql);
     }
     
+    @Override
     public void close() {
-        session.close();
-        cluster.close();
+        if (session != null) {
+            session.close();
+        }
+        
+        if (cluster != null) {
+            cluster.close();
+        }
     }
 }

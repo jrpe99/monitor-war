@@ -12,14 +12,11 @@ public class HTTPAccessSimulator {
     }
 
     public void simulate() {
-        ConnectionHandler conn = null;
-        try {
+        try (ConnectionHandler conn = new ConnectionHandler()) {
             Random random = new Random();
-            conn = new ConnectionHandler();
             conn.connect();
             HTTPAccessDAO httpAccessDAO = new HTTPAccessDAO(conn);
             while(true) {
-
                 httpAccessDAO.create(HTTPAccessTOFactory.createSimulated());
                 
                 int sleepTime = random.nextInt(500);
@@ -28,8 +25,8 @@ public class HTTPAccessSimulator {
                 } catch (InterruptedException e) {
                 }
             }
-        } finally {
-            if(conn != null)conn.close();
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 }

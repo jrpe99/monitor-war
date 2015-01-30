@@ -9,8 +9,7 @@ public class HTTPAccessSchema {
     }
 
     public void createSchema() {
-        ConnectionHandler connectionHandler = new ConnectionHandler();
-        try {
+        try (ConnectionHandler connectionHandler = new ConnectionHandler()) {
             connectionHandler.connect();
             connectionHandler.execute("CREATE KEYSPACE IF NOT EXISTS httpaccess WITH replication = {'class':'NetworkTopologyStrategy', 'replication_factor':2};");
 
@@ -59,8 +58,8 @@ public class HTTPAccessSchema {
             logFailureTable.append("    PRIMARY KEY (ip_address)");
             logFailureTable.append(")");
             connectionHandler.execute(logFailureTable.toString());
-        } finally {
-            connectionHandler.close();
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 }
