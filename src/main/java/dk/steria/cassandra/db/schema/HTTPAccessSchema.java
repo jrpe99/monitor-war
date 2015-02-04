@@ -11,7 +11,7 @@ public class HTTPAccessSchema {
     public void createSchema() {
         try (ConnectionHandler connectionHandler = new ConnectionHandler()) {
             connectionHandler.connect();
-            connectionHandler.execute("CREATE KEYSPACE IF NOT EXISTS httpaccess WITH replication = {'class':'NetworkTopologyStrategy', 'replication_factor':2};");
+            connectionHandler.execute("CREATE KEYSPACE IF NOT EXISTS httpaccess WITH replication = {'class':'SimpleStrategy', 'replication_factor':2};");
 
             StringBuilder logHttpAccessTable = new StringBuilder();
             logHttpAccessTable.append("CREATE TABLE IF NOT EXISTS httpaccess.http_access (");
