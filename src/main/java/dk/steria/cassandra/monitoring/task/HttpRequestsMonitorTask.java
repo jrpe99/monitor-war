@@ -24,8 +24,8 @@ import java.util.List;
  */
 public class HttpRequestsMonitorTask extends MonitoringTask {
 
-    public HttpRequestsMonitorTask(int timeInterval) {
-        super(timeInterval);
+    public HttpRequestsMonitorTask(int delay) {
+        super(delay);
     }
     
     @Override

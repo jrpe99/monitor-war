@@ -2,7 +2,6 @@ package dk.steria.cassandra.monitoring.task;
 
 import dk.steria.cassandra.db.ConnectionHandler;
 import java.util.List;
-import java.util.TimerTask;
 import java.util.concurrent.CopyOnWriteArrayList;
 import javax.websocket.Session;
 
@@ -11,9 +10,9 @@ import javax.websocket.Session;
  * 
  * @author Jörgen Persson
  */
-public abstract class MonitoringTask extends TimerTask {
+public abstract class MonitoringTask implements Runnable {
 
-    private int timeInterval = 1000;
+    private int delay = 1000;
     private List<Session> sessionList = new CopyOnWriteArrayList<>();
 
     private ConnectionHandler conn = null;
@@ -23,19 +22,11 @@ public abstract class MonitoringTask extends TimerTask {
      * 1. Set monitoring interval
      * 2. Connect to the Cassandra database
      * 
-     * @param timeInterval 
+     * @param delay 
      */
-    MonitoringTask(int timeInterval) {
-        this.timeInterval = timeInterval;
+    MonitoringTask(int delay) {
+        this.delay = delay;
         connectToCassandra();
-    }
-    
-    @Override
-    public boolean cancel() {
-        if(conn != null) {
-            conn.close();
-        }
-        return super.cancel();
     }
     
     public List<Session> getSessionList() {
@@ -50,8 +41,8 @@ public abstract class MonitoringTask extends TimerTask {
         sessionList.remove(session);
     }
 
-    public int getTimeInterval() {
-        return timeInterval;
+    public int getDelay() {
+        return delay;
     }
 
     public synchronized ConnectionHandler getCassandraConnection() {
@@ -59,6 +50,12 @@ public abstract class MonitoringTask extends TimerTask {
             connectToCassandra();
         }
         return conn;
+    }
+
+    public void cancel() {
+        if(conn != null) {
+            conn.close();
+        }
     }
 
     private void connectToCassandra() {

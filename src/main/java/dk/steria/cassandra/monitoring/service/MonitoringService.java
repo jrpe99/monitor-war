@@ -6,6 +6,10 @@ import dk.steria.cassandra.monitoring.task.MonitoringTask;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import javax.websocket.Session;
 
 /**
@@ -22,7 +26,8 @@ public class MonitoringService {
         static final MonitoringService instance = new MonitoringService();
     }
     
-    private final Timer monitorTimer = new Timer();
+//    private final Timer monitorTimer = new Timer();
+    private ScheduledExecutorService monitorTimer = null;
     
     private final List<MonitoringTask> monitoringTaskList = new ArrayList<>();
 
@@ -66,16 +71,19 @@ public class MonitoringService {
      * Stop the monitoring timer.
      */
     public void stop() {
-        monitorTimer.cancel();
-        monitorTimer.purge();
+        monitorTimer.shutdown();
+        monitoringTaskList.stream().forEach((monitoringTask) -> {
+            monitoringTask.cancel();
+        });
     }
 
     /**
      * Schedule all monitoring tasks.
      */
     private void start() {
-        for (MonitoringTask monitoringTask : monitoringTaskList) {
-            monitorTimer.schedule(monitoringTask, 0, monitoringTask.getTimeInterval());
-        }
+        monitorTimer = Executors.newScheduledThreadPool(monitoringTaskList.size());
+        monitoringTaskList.stream().forEach((monitoringTask) -> {
+            monitorTimer.scheduleWithFixedDelay(monitoringTask, 0, monitoringTask.getDelay(), TimeUnit.MILLISECONDS);
+        });
     }
 }
