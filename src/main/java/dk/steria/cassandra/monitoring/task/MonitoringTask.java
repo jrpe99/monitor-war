@@ -13,7 +13,7 @@ import javax.websocket.Session;
 public abstract class MonitoringTask implements Runnable {
 
     private int delay = 1000;
-    private List<Session> sessionList = new CopyOnWriteArrayList<>();
+    private List<Session> sessionList = null;
 
     private ConnectionHandler conn = null;
 
@@ -24,21 +24,14 @@ public abstract class MonitoringTask implements Runnable {
      * 
      * @param delay 
      */
-    MonitoringTask(int delay) {
+    MonitoringTask(List<Session> sessionList, int delay) {
+        this.sessionList = sessionList;
         this.delay = delay;
         connectToCassandra();
     }
     
     public List<Session> getSessionList() {
         return sessionList;
-    }
-
-    public void addSession(Session session) {
-        sessionList.add(session);
-    }
-    
-    public void removeSession(Session session) {
-        sessionList.remove(session);
     }
 
     public int getDelay() {

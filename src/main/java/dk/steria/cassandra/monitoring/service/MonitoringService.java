@@ -6,6 +6,7 @@ import dk.steria.cassandra.monitoring.task.MonitoringTask;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -30,10 +31,11 @@ public class MonitoringService {
     private ScheduledExecutorService monitorTimer = null;
     
     private final List<MonitoringTask> monitoringTaskList = new ArrayList<>();
+    private List<Session> sessionList = new CopyOnWriteArrayList<>();
 
     private MonitoringService() {
-        this.monitoringTaskList.add(new HttpRequestsMonitorTask(1000));
-        this.monitoringTaskList.add(new HttpRequestsPerMinuteMonitorTask(1000));
+        this.monitoringTaskList.add(new HttpRequestsMonitorTask(sessionList, 1000));
+        this.monitoringTaskList.add(new HttpRequestsPerMinuteMonitorTask(sessionList, 1000));
         start();
     }
     
@@ -51,9 +53,7 @@ public class MonitoringService {
      * @param session
      */
     public void addSession(Session session) {
-        for (MonitoringTask monitoringTask : monitoringTaskList) {
-            monitoringTask.addSession(session);
-        }
+        sessionList.add(session);
     }
     
     /**
@@ -62,9 +62,7 @@ public class MonitoringService {
      * @param session
      */
     public void removeSession(Session session) {
-        for (MonitoringTask monitoringTask : monitoringTaskList) {
-            monitoringTask.removeSession(session);
-        }
+        sessionList.remove(session);
     }
 
     /**

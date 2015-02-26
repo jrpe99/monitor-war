@@ -8,6 +8,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
+import javax.websocket.Session;
 
 /**
  * Task for monitoring HTTP total HTTP Success/Failure access per minute.
@@ -23,8 +24,8 @@ import java.util.List;
  */
 public class HttpRequestsPerMinuteMonitorTask extends MonitoringTask {
 
-    public HttpRequestsPerMinuteMonitorTask(int delay) {
-        super(delay);
+    public HttpRequestsPerMinuteMonitorTask(List<Session> sessionList, int delay) {
+        super(sessionList, delay);
     }
     
     @Override

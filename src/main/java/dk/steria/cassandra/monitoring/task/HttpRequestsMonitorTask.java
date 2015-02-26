@@ -7,6 +7,7 @@ import dk.steria.cassandra.output.json.RadarChartResult;
 import dk.steria.cassandra.output.json.ResultHelper;
 import dk.steria.cassandra.websocket.util.WebSocketHelper;
 import java.util.List;
+import javax.websocket.Session;
 
 /**
  * Task for monitoring total HTTP Success/Failure request per IP address.
@@ -24,8 +25,8 @@ import java.util.List;
  */
 public class HttpRequestsMonitorTask extends MonitoringTask {
 
-    public HttpRequestsMonitorTask(int delay) {
-        super(delay);
+    public HttpRequestsMonitorTask(List<Session> sessionList, int delay) {
+        super(sessionList, delay);
     }
     
     @Override
