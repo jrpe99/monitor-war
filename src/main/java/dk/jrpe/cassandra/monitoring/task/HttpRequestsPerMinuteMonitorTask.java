@@ -1,7 +1,7 @@
 package dk.jrpe.cassandra.monitoring.task;
 
 import com.datastax.driver.core.Row;
-import dk.jrpe.cassandra.CassandraReadDAO;
+import dk.jrpe.cassandra.db.CassandraReadDAO;
 import dk.jrpe.cassandra.output.json.LineChartResult;
 import dk.jrpe.cassandra.websocket.util.WebSocketHelper;
 import java.time.ZonedDateTime;

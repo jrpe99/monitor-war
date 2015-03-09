@@ -1,6 +1,6 @@
 package dk.jrpe.cassandra.monitoring.task;
 
-import dk.jrpe.cassandra.ConnectionHandler;
+import dk.jrpe.cassandra.db.ConnectionHandler;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import javax.websocket.Session;

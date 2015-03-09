@@ -1,4 +1,4 @@
-package dk.jrpe.cassandra;
+package dk.jrpe.cassandra.db;
 
 import dk.jrpe.cassandra.source.httpaccess.to.HTTPAccessTO;
 import java.time.ZonedDateTime;

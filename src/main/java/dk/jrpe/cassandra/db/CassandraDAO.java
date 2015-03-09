@@ -1,4 +1,4 @@
-package dk.jrpe.cassandra;
+package dk.jrpe.cassandra.db;
 
 public class CassandraDAO {
 
