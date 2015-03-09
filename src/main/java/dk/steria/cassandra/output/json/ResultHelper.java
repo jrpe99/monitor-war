@@ -7,12 +7,13 @@ import java.util.List;
  * @author Jörgen Persson
  */
 public class ResultHelper {
-    public static void sortOnLongField(List<Row> rowList, String onField) {
+    public static List<Row> sortOnLongField(List<Row> rowList, String onField) {
         rowList.sort((row1, row2)-> {
             Long field1 = row1.getLong(onField);
             Long field2 = row2.getLong(onField);
             return field2.compareTo(field1);
         });
+        return rowList;
     }
     
     public static double round(double num, int multipleOf) {

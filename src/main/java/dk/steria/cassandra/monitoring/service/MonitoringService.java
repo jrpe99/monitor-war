@@ -5,11 +5,9 @@ import dk.steria.cassandra.monitoring.task.HttpRequestsPerMinuteMonitorTask;
 import dk.steria.cassandra.monitoring.task.MonitoringTask;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import javax.websocket.Session;
 

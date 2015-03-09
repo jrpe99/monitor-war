@@ -2,6 +2,7 @@ package dk.steria.cassandra.monitoring.task;
 
 import com.datastax.driver.core.Row;
 import dk.steria.cassandra.db.CassandraReadDAO;
+import dk.steria.cassandra.output.json.ChartEnum;
 import dk.steria.cassandra.output.json.PieChartResult;
 import dk.steria.cassandra.output.json.RadarChartResult;
 import dk.steria.cassandra.output.json.ResultHelper;
@@ -33,22 +34,15 @@ public class HttpRequestsMonitorTask extends MonitoringTask {
     public void run() {
         CassandraReadDAO dao = new CassandraReadDAO(this.getCassandraConnection());
 
-        List<Row> rowList = dao.getHttpSuccess();
-        ResultHelper.sortOnLongField(rowList, "requests");
-        String successPieChartJSONResult = PieChartResult.httpSuccessToJSON(rowList);
-        String successRadarChartJSONResult = RadarChartResult.httpSuccessToJSON(rowList);
-
-        rowList = dao.getHttpFailure();
-        ResultHelper.sortOnLongField(rowList, "requests");
-        String failedPieChartJSONResult = PieChartResult.httpFailureToJSON(rowList);
-        String failedRadarChartJSONResult = RadarChartResult.httpFailureToJSON(rowList);
+        List<Row> successRowList = ResultHelper.sortOnLongField(dao.getHttpSuccess(), "requests");
+        List<Row> failedRowList = ResultHelper.sortOnLongField(dao.getHttpFailure(), "requests");
 
         /* Send to all clients */
         WebSocketHelper.sendToAll(this.getSessionList(), 
-            successPieChartJSONResult,
-            successRadarChartJSONResult,
-            failedPieChartJSONResult,
-            failedRadarChartJSONResult
+            ChartEnum.PIE_SUCCESS.toJSON(successRowList),
+            ChartEnum.RADAR_SUCCESS.toJSON(successRowList),
+            ChartEnum.PIE_FAILED.toJSON(failedRowList),
+            ChartEnum.RADAR_FAILED.toJSON(failedRowList)
         );
     }
 }
