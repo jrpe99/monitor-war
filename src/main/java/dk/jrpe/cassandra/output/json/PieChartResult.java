@@ -55,7 +55,9 @@ public class PieChartResult {
             int color = 0;
 
             while(index < size) {
-                String hexColor = colorSeed1 + Integer.toHexString(color) + colorSeed2;
+                String hex = Integer.toHexString(color);
+                hex = hex.length() == 1 ? "0"+hex : hex;
+                String hexColor = colorSeed1 + hex + colorSeed2;
                 Row row = rowList.get(index);
 
                 String ipAddress = row.getString("ip_address");
