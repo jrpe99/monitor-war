@@ -1,5 +1,3 @@
-/*
- */
 package dk.jrpe.cassandra.output.json;
 
 import com.datastax.driver.core.Row;
@@ -7,7 +5,9 @@ import java.util.List;
 import java.util.function.Function;
 
 /**
- *
+ * Each ENUM holds a Function representing the strategy to convert 
+ * a list of rows from the Cassandra database to JSON.
+ * 
  * @author Jörgen Persson
  */
 public enum ChartEnum {
@@ -21,7 +21,12 @@ public enum ChartEnum {
     ChartEnum(final Function<List<Row>, String> chartFunction) {
         this.chartFunction = chartFunction;
     }
-    
+   
+    /**
+     * Convert the list of rows to JSON
+     * @param list
+     * @return
+     */
     public String toJSON(List<Row> list) {
         return chartFunction.apply(list);
     }
