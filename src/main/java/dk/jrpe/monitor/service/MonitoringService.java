@@ -1,5 +1,6 @@
 package dk.jrpe.monitor.service;
 
+import dk.jrpe.monitor.service.input.CmdMessage;
 import dk.jrpe.monitor.task.HttpRequestsMonitorTask;
 import dk.jrpe.monitor.task.HttpRequestsPerMinuteMonitorTask;
 import dk.jrpe.monitor.task.MonitoringTask;
@@ -63,6 +64,13 @@ public class MonitoringService {
         sessionList.remove(session);
     }
 
+    /**
+     *
+     * @param cmd
+     */
+    public void handleCommand(CmdMessage cmd) {
+        cmd.execute();
+    }
     /**
      * Stop the monitoring timer.
      */

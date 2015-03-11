@@ -1,6 +1,8 @@
 package dk.jrpe.monitor.websocket;
 
 import dk.jrpe.monitor.service.MonitoringService;
+import dk.jrpe.monitor.service.input.CmdMessage;
+import dk.jrpe.monitor.service.input.JSONDecoder;
 import javax.websocket.CloseReason;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
@@ -14,7 +16,8 @@ import javax.websocket.server.ServerEndpoint;
  * @author Jörgen Persson
  */
 @ServerEndpoint(
-    value = "/monitor"
+    value = "/monitor",
+    decoders = {JSONDecoder.class}
 )
 public class MonitoringServer {
 
@@ -48,11 +51,11 @@ public class MonitoringServer {
 
     /**
      * No message from the client is handled for now.
-     * @param message
+     * @param cmd
      * @param session
      */
     @OnMessage
-    public void handleMessage(String message, Session session){
-        System.out.println(message);
+    public void handleMessage(CmdMessage cmd, Session session){
+        monitorService.handleCommand(cmd);
     }
 }
