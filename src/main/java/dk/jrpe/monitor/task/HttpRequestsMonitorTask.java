@@ -2,10 +2,10 @@ package dk.jrpe.monitor.task;
 
 import com.datastax.driver.core.Row;
 import dk.jrpe.monitor.cassandra.db.CassandraReadDAO;
-import dk.jrpe.monitor.output.ChartEnum;
-import dk.jrpe.monitor.output.json.PieChartResult;
-import dk.jrpe.monitor.output.json.RadarChartResult;
-import dk.jrpe.monitor.output.json.ResultHelper;
+import dk.jrpe.monitor.service.output.ChartEnum;
+import dk.jrpe.monitor.service.output.json.PieChartResult;
+import dk.jrpe.monitor.service.output.json.RadarChartResult;
+import dk.jrpe.monitor.service.output.json.ResultHelper;
 import dk.jrpe.monitor.websocket.WebSocketHelper;
 import java.util.List;
 import javax.websocket.Session;

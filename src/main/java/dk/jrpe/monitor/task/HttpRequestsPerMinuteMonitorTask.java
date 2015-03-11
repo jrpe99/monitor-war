@@ -2,7 +2,7 @@ package dk.jrpe.monitor.task;
 
 import com.datastax.driver.core.Row;
 import dk.jrpe.monitor.cassandra.db.CassandraReadDAO;
-import dk.jrpe.monitor.output.json.LineChartResult;
+import dk.jrpe.monitor.service.output.json.LineChartResult;
 import dk.jrpe.monitor.websocket.WebSocketHelper;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;

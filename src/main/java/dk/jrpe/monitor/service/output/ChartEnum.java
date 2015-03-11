@@ -1,8 +1,8 @@
-package dk.jrpe.monitor.output;
+package dk.jrpe.monitor.service.output;
 
 import com.datastax.driver.core.Row;
-import dk.jrpe.monitor.output.json.PieChartResult;
-import dk.jrpe.monitor.output.json.RadarChartResult;
+import dk.jrpe.monitor.service.output.json.PieChartResult;
+import dk.jrpe.monitor.service.output.json.RadarChartResult;
 import java.util.List;
 import java.util.function.Function;
 

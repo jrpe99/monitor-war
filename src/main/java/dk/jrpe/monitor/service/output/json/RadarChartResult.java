@@ -1,4 +1,4 @@
-package dk.jrpe.monitor.output.json;
+package dk.jrpe.monitor.service.output.json;
 
 import com.datastax.driver.core.Row;
 import java.util.List;
