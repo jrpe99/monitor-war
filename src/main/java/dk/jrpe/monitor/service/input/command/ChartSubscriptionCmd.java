@@ -1,6 +1,7 @@
 package dk.jrpe.monitor.service.input.command;
 
-import dk.jrpe.monitor.service.input.CmdMessage;
+import dk.jrpe.monitor.service.input.CommandHandler;
+import dk.jrpe.monitor.service.output.ChartSubscriptionHandler;
 import java.util.List;
 
 /**
@@ -10,8 +11,10 @@ import java.util.List;
 public class ChartSubscriptionCmd extends Command {
     private List<String> chartSubscription;
 
-    @Override public void execute() {
+    @Override public void execute(CommandHandler cmdMsg) {
+        System.out.println("Execute command");
         System.out.println(toString());
+        ChartSubscriptionHandler.subscribe(cmdMsg.getSession(), this.chartSubscription);
     }
     
     public List<String> getChartSubscription() {

@@ -6,23 +6,23 @@ import java.util.function.Consumer;
 import javax.websocket.Session;
 
 /**
- *
+ * 
  * @author Jörgen Persson
  */
-public class CmdMessage {
+public class CommandHandler {
     public enum CommandEnum {
-        CHART_SUBSCRIPTION((cmd -> {
-            JSONMapper.toObject(cmd.getJson(), ChartSubscriptionCmd.class).execute();
+        CHART_SUBSCRIPTION((cmdHandler -> {
+            JSONMapper.toObject(cmdHandler.getJson(), ChartSubscriptionCmd.class).execute(cmdHandler);
         }));
         
-        private Consumer<CmdMessage> cmdMsg;
+        private final Consumer<CommandHandler> cmdHandler;
         
-        CommandEnum(Consumer<CmdMessage> cmdMsg) {
-            this.cmdMsg = cmdMsg;
+        CommandEnum(Consumer<CommandHandler> cmdMsg) {
+            this.cmdHandler = cmdMsg;
         }
         
-        public void execute(CmdMessage cmdMsg) {
-            this.cmdMsg.accept(cmdMsg);
+        public void execute(CommandHandler cmdMsg) {
+            this.cmdHandler.accept(cmdMsg);
         }
     }
 

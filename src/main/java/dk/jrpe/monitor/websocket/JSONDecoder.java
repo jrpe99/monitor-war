@@ -5,7 +5,7 @@
  */
 package dk.jrpe.monitor.websocket;
 
-import dk.jrpe.monitor.service.input.CmdMessage;
+import dk.jrpe.monitor.service.input.CommandHandler;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +18,7 @@ import org.codehaus.jackson.map.ObjectMapper;
  *
  * @author jorperss
  */
-public class JSONDecoder implements Decoder.Text<CmdMessage> {
+public class JSONDecoder implements Decoder.Text<CommandHandler> {
 
     private static final ObjectMapper jsonMapper = new ObjectMapper();
     
@@ -30,8 +30,8 @@ public class JSONDecoder implements Decoder.Text<CmdMessage> {
      * @return
      * @throws DecodeException
      */
-    @Override public CmdMessage decode(String json) throws DecodeException {
-        CmdMessage cmd = null;
+    @Override public CommandHandler decode(String json) throws DecodeException {
+        CommandHandler cmd = null;
         String commandString;
         try {
             // Check if there is more data then the command string.
@@ -42,7 +42,7 @@ public class JSONDecoder implements Decoder.Text<CmdMessage> {
                 commandString = json;
                 json = null;
             }
-            cmd = jsonMapper.readValue(commandString, CmdMessage.class);
+            cmd = jsonMapper.readValue(commandString, CommandHandler.class);
             cmd.setJson(json);
         } catch (IOException ex) {
             Logger.getLogger(JSONDecoder.class.getName()).log(Level.SEVERE, null, ex);

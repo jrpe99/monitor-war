@@ -1,6 +1,6 @@
 package dk.jrpe.monitor.service;
 
-import dk.jrpe.monitor.service.input.CmdMessage;
+import dk.jrpe.monitor.service.input.CommandHandler;
 import dk.jrpe.monitor.task.HttpRequestsMonitorTask;
 import dk.jrpe.monitor.task.HttpRequestsPerMinuteMonitorTask;
 import dk.jrpe.monitor.task.MonitoringTask;
@@ -68,7 +68,7 @@ public class MonitoringService {
      *
      * @param cmd
      */
-    public void handleCommand(CmdMessage cmd) {
+    public void handleCommand(CommandHandler cmd) {
         cmd.execute();
     }
     /**
