@@ -1,20 +1,23 @@
 package dk.jrpe.monitor.service.input;
 
+import dk.jrpe.monitor.json.JSONMapper;
 import dk.jrpe.monitor.service.input.command.ChartSubscriptionCmd;
-import java.util.List;
 import java.util.function.Consumer;
+import javax.websocket.Session;
 
 /**
  *
  * @author Jörgen Persson
  */
 public class CmdMessage {
-    public enum Command {
-        CHART_SUBSCRIPTION((cmd -> {new ChartSubscriptionCmd().execute(cmd);}));
+    public enum CommandEnum {
+        CHART_SUBSCRIPTION((cmd -> {
+            JSONMapper.toObject(cmd.getJson(), ChartSubscriptionCmd.class).execute();
+        }));
         
         private Consumer<CmdMessage> cmdMsg;
         
-        Command(Consumer<CmdMessage> cmdMsg) {
+        CommandEnum(Consumer<CmdMessage> cmdMsg) {
             this.cmdMsg = cmdMsg;
         }
         
@@ -23,29 +26,38 @@ public class CmdMessage {
         }
     }
 
-    private Command command;
-    private List<String> chartSubscription;
+    private Session session;
+    private CommandEnum command;
+    private String json;
 
     public void execute() {
         this.command.execute(this);
     }
-    
-    public List<String> getChartSubscription() {
-        return chartSubscription;
+
+    public Session getSession() {
+        return session;
     }
 
-    public void setChartSubscription(List<String> chartSubscription) {
-        this.chartSubscription = chartSubscription;
+    public void setSession(Session session) {
+        this.session = session;
     }
 
-    public Command getCommand() {
+    public CommandEnum getCommand() {
         return command;
     }
 
     public void setCommand(String command) {
-        this.command = Command.valueOf(command);
+        this.command = CommandEnum.valueOf(command);
     }
 
+    public String getJson() {
+        return json;
+    }
+
+    public void setJson(String json) {
+        this.json = json;
+    }
+    
     @Override
     public String toString() {
         return command.toString();

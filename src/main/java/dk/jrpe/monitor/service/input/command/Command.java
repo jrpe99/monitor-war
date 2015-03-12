@@ -1,11 +1,19 @@
 package dk.jrpe.monitor.service.input.command;
 
-import dk.jrpe.monitor.service.input.CmdMessage;
-
 /**
  *
  * @author Jörgen Persson
  */
-public interface Command {
-    public void execute(CmdMessage cmd);
+public abstract class Command {
+    private String command;
+
+    public abstract void execute();
+
+    public String getCommand() {
+        return command;
+    }
+
+    public void setCommand(String command) {
+        this.command = command;
+    }
 }

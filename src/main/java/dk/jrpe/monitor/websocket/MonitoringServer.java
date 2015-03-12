@@ -2,7 +2,6 @@ package dk.jrpe.monitor.websocket;
 
 import dk.jrpe.monitor.service.MonitoringService;
 import dk.jrpe.monitor.service.input.CmdMessage;
-import dk.jrpe.monitor.service.input.JSONDecoder;
 import javax.websocket.CloseReason;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
@@ -56,6 +55,7 @@ public class MonitoringServer {
      */
     @OnMessage
     public void handleMessage(CmdMessage cmd, Session session){
+        cmd.setSession(session);
         monitorService.handleCommand(cmd);
     }
 }

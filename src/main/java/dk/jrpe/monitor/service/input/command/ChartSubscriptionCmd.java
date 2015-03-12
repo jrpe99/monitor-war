@@ -1,18 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dk.jrpe.monitor.service.input.command;
 
 import dk.jrpe.monitor.service.input.CmdMessage;
+import java.util.List;
 
 /**
  *
- * @author jorperss
+ * @author Jörgen Persson
  */
-public class ChartSubscriptionCmd implements Command {
-    public void execute(CmdMessage cmd) {
-        System.out.println(cmd.getCommand().toString());
+public class ChartSubscriptionCmd extends Command {
+    private List<String> chartSubscription;
+
+    @Override public void execute() {
+        System.out.println(toString());
+    }
+    
+    public List<String> getChartSubscription() {
+        return this.chartSubscription;
+    }
+
+    public void setChartSubscription(List<String> chartSubscription) {
+        this.chartSubscription = chartSubscription;
+    }
+
+    @Override
+    public String toString() {
+        return "ChartSubscriptionCmd [" + "chartSubscription " + chartSubscription + " " + "getCommand " + getCommand() + "]";
     }
 }
