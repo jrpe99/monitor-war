@@ -24,6 +24,7 @@ public enum ChartEnum {
     
     private final int type;
     private final Function<List<Row>, String> chartFunction;
+    private String json;
     
     ChartEnum(int type, Function<List<Row>, String> chartFunction) {
         this.type = type;
@@ -33,13 +34,20 @@ public enum ChartEnum {
     /**
      * Convert the list of rows to JSON
      * @param list
-     * @return
      */
-    public String toJSON(List<Row> list) {
-        return chartFunction.apply(list);
+    public void toJSON(List<Row> list) {
+        this.json = chartFunction.apply(list);
     }
     
     public int getType() {
         return this.type;
+    }
+
+    public String getJson() {
+        return json;
+    }
+
+    public void setJson(String json) {
+        this.json = json;
     }
 }

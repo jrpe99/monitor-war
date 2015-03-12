@@ -13,7 +13,7 @@ import javax.websocket.Session;
 public class ChartSubscriptionHandler {
     public static void subscribe(Session session, List<String> chartTypes) {
         synchronized(session) {
-            session.getUserProperties().put(Constant.CHART_SUBSCRIPTION, subscribe(chartTypes));
+            session.getUserProperties().put(MonitorConstant.CHART_SUBSCRIPTION, subscribe(chartTypes));
         }
     }
     
