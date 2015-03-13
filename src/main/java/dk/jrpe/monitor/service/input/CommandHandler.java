@@ -17,12 +17,12 @@ public class CommandHandler {
         
         private final Consumer<CommandHandler> cmdHandler;
         
-        CommandEnum(Consumer<CommandHandler> cmdMsg) {
-            this.cmdHandler = cmdMsg;
+        CommandEnum(Consumer<CommandHandler> cmdHandler) {
+            this.cmdHandler = cmdHandler;
         }
         
-        public void execute(CommandHandler cmdMsg) {
-            this.cmdHandler.accept(cmdMsg);
+        public void execute(CommandHandler cmdHandler) {
+            this.cmdHandler.accept(cmdHandler);
         }
     }
 

@@ -15,8 +15,8 @@ import javax.websocket.EndpointConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
- *
- * @author jorperss
+ * Decode JSON sent from the client into a CommandHandler object.
+ * @author Jörgen Persson
  */
 public class JSONDecoder implements Decoder.Text<CommandHandler> {
 
