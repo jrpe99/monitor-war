@@ -49,7 +49,7 @@ public class MonitoringServer {
     }
 
     /**
-     * No message from the client is handled for now.
+     * Handle commands sent from the client.
      * @param cmd
      * @param session
      */
