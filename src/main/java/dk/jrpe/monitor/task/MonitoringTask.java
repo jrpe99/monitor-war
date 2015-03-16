@@ -1,6 +1,6 @@
 package dk.jrpe.monitor.task;
 
-import dk.jrpe.monitor.db.strategy.DataSourceStrategy;
+import dk.jrpe.monitor.db.strategy.DataSource;
 import dk.jrpe.monitor.db.cassandra.CassandraConnectionHandler;
 import java.util.List;
 import javax.websocket.Session;
@@ -15,9 +15,9 @@ public abstract class MonitoringTask implements Runnable {
     private int delay = 1000;
     private List<Session> sessionList = null;
 
-    private DataSourceStrategy dataSource = null;
+    private DataSource dataSource = null;
 
-    MonitoringTask(DataSourceStrategy dataSource, List<Session> sessionList, int delay) {
+    MonitoringTask(DataSource dataSource, List<Session> sessionList, int delay) {
         this.sessionList = sessionList;
         this.delay = delay;
         this.dataSource = dataSource;
@@ -32,7 +32,7 @@ public abstract class MonitoringTask implements Runnable {
         return delay;
     }
 
-    public DataSourceStrategy getDataSouce() {
+    public DataSource getDataSouce() {
         return dataSource;
     }
     

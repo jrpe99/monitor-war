@@ -8,7 +8,7 @@ import java.util.List;
  *
  * @author Jörgen Persson
  */
-public interface DataSourceStrategy {
+public interface DataSource {
     public List<HttpAccess> getHttpSuccess();
     public List<HttpAccess> getHttpFailed();
     public List<Row> getHttpSuccessPerMinute(String date, String from, String to);

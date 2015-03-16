@@ -2,7 +2,7 @@ package dk.jrpe.monitor.task;
 
 import com.datastax.driver.core.Row;
 import dk.jrpe.monitor.db.cassandra.CassandraReadDAO;
-import dk.jrpe.monitor.db.strategy.DataSourceStrategy;
+import dk.jrpe.monitor.db.strategy.DataSource;
 import dk.jrpe.monitor.service.output.ChartEnum;
 import dk.jrpe.monitor.service.output.json.LineChartResult;
 import dk.jrpe.monitor.websocket.WebSocketHelper;
@@ -28,7 +28,7 @@ import javax.websocket.Session;
  */
 public class HttpRequestsPerMinuteMonitorTask extends MonitoringTask {
 
-    public HttpRequestsPerMinuteMonitorTask(DataSourceStrategy dataSource, List<Session> sessionList, int delay) {
+    public HttpRequestsPerMinuteMonitorTask(DataSource dataSource, List<Session> sessionList, int delay) {
         super(dataSource, sessionList, delay);
     }
     

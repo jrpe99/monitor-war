@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author Jörgen Persson
  */
-public class CassandraStrategy implements DataSourceStrategy {
+public class CassandraDataSource implements DataSource {
 
     private CassandraConnectionHandler conn = null;
     private CassandraReadDAO readDao = null;

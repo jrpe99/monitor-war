@@ -1,6 +1,6 @@
 package dk.jrpe.monitor.task;
 
-import dk.jrpe.monitor.db.strategy.DataSourceStrategy;
+import dk.jrpe.monitor.db.strategy.DataSource;
 import dk.jrpe.monitor.db.to.HttpAccess;
 import dk.jrpe.monitor.service.output.ChartEnum;
 import dk.jrpe.monitor.service.output.json.ResultHelper;
@@ -26,7 +26,7 @@ import javax.websocket.Session;
  */
 public class HttpRequestsMonitorTask extends MonitoringTask {
 
-    public HttpRequestsMonitorTask(DataSourceStrategy dataSource, List<Session> sessionList, int delay) {
+    public HttpRequestsMonitorTask(DataSource dataSource, List<Session> sessionList, int delay) {
         super(dataSource, sessionList, delay);
     }
     
