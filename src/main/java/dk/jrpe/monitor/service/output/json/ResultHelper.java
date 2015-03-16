@@ -1,16 +1,16 @@
 package dk.jrpe.monitor.service.output.json;
 
-import com.datastax.driver.core.Row;
+import dk.jrpe.monitor.db.to.HttpAccess;
 import java.util.List;
 
 /**
  * @author Jörgen Persson
  */
 public class ResultHelper {
-    public static List<Row> sortOnLongField(List<Row> rowList, String onField) {
+    public static List<HttpAccess> sortHttpAccess(List<HttpAccess> rowList) {
         rowList.sort((row1, row2)-> {
-            Long field1 = row1.getLong(onField);
-            Long field2 = row2.getLong(onField);
+            Long field1 = row1.getRequests();
+            Long field2 = row2.getRequests();
             return field2.compareTo(field1);
         });
         return rowList;

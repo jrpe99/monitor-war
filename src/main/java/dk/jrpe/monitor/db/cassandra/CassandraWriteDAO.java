@@ -1,10 +1,10 @@
-package dk.jrpe.monitor.cassandra.db;
+package dk.jrpe.monitor.db.cassandra;
 
 import dk.jrpe.monitor.source.httpaccess.to.HTTPAccessTO;
 
 public class CassandraWriteDAO extends CassandraDAO {
 
-    public CassandraWriteDAO(ConnectionHandler conn) {
+    public CassandraWriteDAO(CassandraConnectionHandler conn) {
         super(conn);
     }
     

@@ -1,6 +1,6 @@
 package dk.jrpe.monitor.service.output;
 
-import com.datastax.driver.core.Row;
+import dk.jrpe.monitor.db.to.HttpAccess;
 import dk.jrpe.monitor.service.output.json.PieChartResult;
 import dk.jrpe.monitor.service.output.json.RadarChartResult;
 import java.util.List;
@@ -23,10 +23,10 @@ public enum ChartEnum {
     }));
     
     private final int type;
-    private final Function<List<Row>, String> chartFunction;
+    private final Function<List<HttpAccess>, String> chartFunction;
     private String json;
     
-    ChartEnum(int type, Function<List<Row>, String> chartFunction) {
+    ChartEnum(int type, Function<List<HttpAccess>, String> chartFunction) {
         this.type = type;
         this.chartFunction = chartFunction;
     }
@@ -35,7 +35,7 @@ public enum ChartEnum {
      * Convert the list of rows to JSON
      * @param list
      */
-    public void toJSON(List<Row> list) {
+    public void toJSON(List<HttpAccess> list) {
         this.json = chartFunction.apply(list);
     }
     

@@ -1,7 +1,7 @@
-package dk.jrpe.monitor.cassandra.db.schema;
+package dk.jrpe.monitor.db.cassandra.schema;
 
 
-import dk.jrpe.monitor.cassandra.db.ConnectionHandler;
+import dk.jrpe.monitor.db.cassandra.CassandraConnectionHandler;
 
 public class HTTPAccessSchema {
     public static void main(String[] args) {
@@ -9,7 +9,7 @@ public class HTTPAccessSchema {
     }
 
     public void createSchema() {
-        try (ConnectionHandler connectionHandler = new ConnectionHandler()) {
+        try (CassandraConnectionHandler connectionHandler = new CassandraConnectionHandler()) {
             connectionHandler.connect();
             connectionHandler.execute("CREATE KEYSPACE IF NOT EXISTS httpaccess WITH replication = {'class':'SimpleStrategy', 'replication_factor':2};");
 

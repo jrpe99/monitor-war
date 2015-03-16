@@ -1,4 +1,4 @@
-package dk.jrpe.monitor.cassandra.db;
+package dk.jrpe.monitor.db.cassandra;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Cluster;
@@ -7,7 +7,7 @@ import com.datastax.driver.core.Host;
 import com.datastax.driver.core.Metadata;
 import com.datastax.driver.core.Session;
 
-public class ConnectionHandler implements AutoCloseable {
+public class CassandraConnectionHandler implements AutoCloseable {
 
     private Cluster cluster;
     private Session session;

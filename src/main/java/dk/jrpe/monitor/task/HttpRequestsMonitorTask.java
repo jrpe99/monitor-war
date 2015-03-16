@@ -1,10 +1,8 @@
 package dk.jrpe.monitor.task;
 
-import com.datastax.driver.core.Row;
-import dk.jrpe.monitor.cassandra.db.CassandraReadDAO;
+import dk.jrpe.monitor.db.strategy.DataSourceStrategy;
+import dk.jrpe.monitor.db.to.HttpAccess;
 import dk.jrpe.monitor.service.output.ChartEnum;
-import dk.jrpe.monitor.service.output.json.PieChartResult;
-import dk.jrpe.monitor.service.output.json.RadarChartResult;
 import dk.jrpe.monitor.service.output.json.ResultHelper;
 import dk.jrpe.monitor.websocket.WebSocketHelper;
 import java.util.List;
@@ -28,17 +26,15 @@ import javax.websocket.Session;
  */
 public class HttpRequestsMonitorTask extends MonitoringTask {
 
-    public HttpRequestsMonitorTask(List<Session> sessionList, int delay) {
-        super(sessionList, delay);
+    public HttpRequestsMonitorTask(DataSourceStrategy dataSource, List<Session> sessionList, int delay) {
+        super(dataSource, sessionList, delay);
     }
     
     @Override
     public void run() {
         try {
-            CassandraReadDAO dao = new CassandraReadDAO(this.getCassandraConnection());
-
-            List<Row> successRowList = ResultHelper.sortOnLongField(dao.getHttpSuccess(), "requests");
-            List<Row> failedRowList = ResultHelper.sortOnLongField(dao.getHttpFailure(), "requests");
+            List<HttpAccess> successRowList = ResultHelper.sortHttpAccess(this.getDataSouce().getHttpSuccess());
+            List<HttpAccess> failedRowList = ResultHelper.sortHttpAccess(this.getDataSouce().getHttpSuccess());
 
             ChartEnum.PIE_SUCCESS.toJSON(successRowList);
             ChartEnum.RADAR_SUCCESS.toJSON(successRowList);

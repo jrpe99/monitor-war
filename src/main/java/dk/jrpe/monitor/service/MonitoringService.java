@@ -1,5 +1,6 @@
 package dk.jrpe.monitor.service;
 
+import dk.jrpe.monitor.db.strategy.CassandraStrategy;
 import dk.jrpe.monitor.service.input.CommandHandler;
 import dk.jrpe.monitor.task.HttpRequestsMonitorTask;
 import dk.jrpe.monitor.task.HttpRequestsPerMinuteMonitorTask;
@@ -33,8 +34,8 @@ public class MonitoringService {
     private List<Session> sessionList = new CopyOnWriteArrayList<>();
 
     private MonitoringService() {
-        this.monitoringTaskList.add(new HttpRequestsMonitorTask(sessionList, 1000));
-        this.monitoringTaskList.add(new HttpRequestsPerMinuteMonitorTask(sessionList, 1000));
+        this.monitoringTaskList.add(new HttpRequestsMonitorTask(new CassandraStrategy(),sessionList, 1000));
+        this.monitoringTaskList.add(new HttpRequestsPerMinuteMonitorTask(new CassandraStrategy(), sessionList, 1000));
         start();
     }
     

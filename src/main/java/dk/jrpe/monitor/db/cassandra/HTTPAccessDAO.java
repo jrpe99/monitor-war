@@ -1,4 +1,4 @@
-package dk.jrpe.monitor.cassandra.db;
+package dk.jrpe.monitor.db.cassandra;
 
 import dk.jrpe.monitor.source.httpaccess.to.HTTPAccessTO;
 import java.time.ZonedDateTime;
@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
  */
 public class HTTPAccessDAO extends CassandraWriteDAO {
 
-    public HTTPAccessDAO(ConnectionHandler conn) {
+    public HTTPAccessDAO(CassandraConnectionHandler conn) {
         super(conn);
     }
     

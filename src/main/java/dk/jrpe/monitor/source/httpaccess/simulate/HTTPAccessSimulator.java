@@ -2,8 +2,8 @@ package dk.jrpe.monitor.source.httpaccess.simulate;
 
 import java.util.Random;
 
-import dk.jrpe.monitor.cassandra.db.ConnectionHandler;
-import dk.jrpe.monitor.cassandra.db.HTTPAccessDAO;
+import dk.jrpe.monitor.db.cassandra.CassandraConnectionHandler;
+import dk.jrpe.monitor.db.cassandra.HTTPAccessDAO;
 import dk.jrpe.monitor.source.httpaccess.to.HTTPAccessTOFactory;
 
 public class HTTPAccessSimulator {
@@ -12,7 +12,7 @@ public class HTTPAccessSimulator {
     }
 
     public void simulate() {
-        try (ConnectionHandler conn = new ConnectionHandler()) {
+        try (CassandraConnectionHandler conn = new CassandraConnectionHandler()) {
             Random random = new Random();
             conn.connect();
             HTTPAccessDAO httpAccessDAO = new HTTPAccessDAO(conn);

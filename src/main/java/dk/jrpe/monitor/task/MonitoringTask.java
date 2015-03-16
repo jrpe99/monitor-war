@@ -1,8 +1,8 @@
 package dk.jrpe.monitor.task;
 
-import dk.jrpe.monitor.cassandra.db.ConnectionHandler;
+import dk.jrpe.monitor.db.strategy.DataSourceStrategy;
+import dk.jrpe.monitor.db.cassandra.CassandraConnectionHandler;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 import javax.websocket.Session;
 
 /**
@@ -15,19 +15,13 @@ public abstract class MonitoringTask implements Runnable {
     private int delay = 1000;
     private List<Session> sessionList = null;
 
-    private ConnectionHandler conn = null;
+    private DataSourceStrategy dataSource = null;
 
-    /**
-     * Initialize the monitor task.
-     * 1. Set monitoring interval
-     * 2. Connect to the Cassandra database
-     * 
-     * @param delay 
-     */
-    MonitoringTask(List<Session> sessionList, int delay) {
+    MonitoringTask(DataSourceStrategy dataSource, List<Session> sessionList, int delay) {
         this.sessionList = sessionList;
         this.delay = delay;
-        connectToCassandra();
+        this.dataSource = dataSource;
+        this.dataSource.open();
     }
     
     public List<Session> getSessionList() {
@@ -38,23 +32,11 @@ public abstract class MonitoringTask implements Runnable {
         return delay;
     }
 
-    public synchronized ConnectionHandler getCassandraConnection() {
-        if(this.conn == null) {
-            connectToCassandra();
-        }
-        return conn;
+    public DataSourceStrategy getDataSouce() {
+        return dataSource;
     }
-
+    
     public void cancel() {
-        if(conn != null) {
-            conn.close();
-        }
-    }
-
-    private void connectToCassandra() {
-        if(conn == null) {
-            conn = new ConnectionHandler();
-            conn.connect();
-        }
+        this.dataSource.close();
     }
 }

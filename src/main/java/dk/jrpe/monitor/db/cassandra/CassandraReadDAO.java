@@ -1,4 +1,4 @@
-package dk.jrpe.monitor.cassandra.db;
+package dk.jrpe.monitor.db.cassandra;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class CassandraReadDAO extends CassandraDAO {
 
-    public CassandraReadDAO(ConnectionHandler conn) {
+    public CassandraReadDAO(CassandraConnectionHandler conn) {
         super(conn);
     }
     
@@ -19,7 +19,7 @@ public class CassandraReadDAO extends CassandraDAO {
         ResultSet resultList = conn.execute(cql);
         return resultList.all();
     }
-    public List<Row> getHttpFailure() {
+    public List<Row> getHttpFailed() {
         String cql = "SELECT ip_address, requests from httpaccess.http_failed";
         ResultSet resultList = conn.execute(cql);
         return resultList.all();
