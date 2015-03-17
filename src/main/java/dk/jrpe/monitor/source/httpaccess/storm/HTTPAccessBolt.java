@@ -10,7 +10,7 @@ import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import dk.jrpe.monitor.db.cassandra.CassandraConnectionHandler;
 import dk.jrpe.monitor.db.cassandra.HTTPAccessDAO;
-import dk.jrpe.monitor.source.httpaccess.to.HTTPAccessTO;
+import dk.jrpe.monitor.db.to.HTTPAccessTO;
 import java.util.List;
 
 @SuppressWarnings("serial")
@@ -32,7 +32,7 @@ public class HTTPAccessBolt extends BaseRichBolt {
         List<Object> values = tuple.getValues();
         values.stream().map((value) -> (HTTPAccessTO)value).forEach((to) -> {
             System.out.println("BOLT Thread : " + Thread.currentThread().getName() + " process HTTP Access IP: " + to.getIpAddress());
-            httpAccessDAO.create(to);
+            httpAccessDAO.saveAndUpdate(to);
         });
         collector.ack(tuple);
     }

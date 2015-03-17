@@ -1,13 +1,13 @@
 package dk.jrpe.monitor.service.output.json;
 
-import dk.jrpe.monitor.db.to.HttpAccess;
+import dk.jrpe.monitor.db.to.HTTPAccessTO;
 import java.util.List;
 
 /**
  * @author Jörgen Persson
  */
 public class ResultHelper {
-    public static List<HttpAccess> sortHttpAccess(List<HttpAccess> rowList) {
+    public static List<HTTPAccessTO> sortHttpAccess(List<HTTPAccessTO> rowList) {
         rowList.sort((row1, row2)-> {
             Long field1 = row1.getRequests();
             Long field2 = row2.getRequests();

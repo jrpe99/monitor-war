@@ -1,6 +1,7 @@
 package dk.jrpe.monitor.db.cassandra;
 
-import dk.jrpe.monitor.source.httpaccess.to.HTTPAccessTO;
+import dk.jrpe.monitor.db.to.HTTPAccessTO;
+
 
 public class CassandraWriteDAO extends CassandraDAO {
 
@@ -8,7 +9,7 @@ public class CassandraWriteDAO extends CassandraDAO {
         super(conn);
     }
     
-    void logHttpAccess(HTTPAccessTO to, int hour, long time) {
+    public void saveHttpAccess(HTTPAccessTO to, int hour, long time) {
         StringBuilder cql = new StringBuilder();
         cql.append("INSERT INTO httpaccess.http_access (hour,ip_address,http_status,action,url,date_to_minute) ");
         cql.append("VALUES ");
@@ -23,7 +24,7 @@ public class CassandraWriteDAO extends CassandraDAO {
         conn.execute(cql.toString());
     }
 
-    void logHttpSuccess(HTTPAccessTO to) {
+    public void updateHttpSuccess(HTTPAccessTO to) {
         StringBuilder cql = new StringBuilder();
         cql.append("UPDATE httpaccess.http_success ");
         cql.append("SET ");
@@ -33,7 +34,7 @@ public class CassandraWriteDAO extends CassandraDAO {
         conn.execute(cql.toString());
     }
 
-    void logHttpSuccessPerMinute(HTTPAccessTO to) {
+    public void updateHttpSuccessPerMinute(HTTPAccessTO to) {
         StringBuilder cql = new StringBuilder();
         cql.append("UPDATE httpaccess.http_success_per_minute ");
         cql.append("SET ");
@@ -44,7 +45,7 @@ public class CassandraWriteDAO extends CassandraDAO {
         conn.execute(cql.toString());
     }
 
-    void logHttpFailed(HTTPAccessTO to) {
+    public void updateHttpFailed(HTTPAccessTO to) {
         StringBuilder cql = new StringBuilder();
         cql.append("UPDATE httpaccess.http_failed ");
         cql.append("SET ");
@@ -54,7 +55,7 @@ public class CassandraWriteDAO extends CassandraDAO {
         conn.execute(cql.toString());
     }
 
-    void logHttpFailedPerMinute(String date, String dateToMinute) {
+    public void updateHttpFailedPerMinute(String date, String dateToMinute) {
         StringBuilder cql = new StringBuilder();
         cql.append("UPDATE httpaccess.http_failed_per_minute ");
         cql.append("SET ");

@@ -1,6 +1,6 @@
 package dk.jrpe.monitor.service.output.json;
 
-import dk.jrpe.monitor.db.to.HttpAccess;
+import dk.jrpe.monitor.db.to.HTTPAccessTO;
 import java.util.List;
 
 /**
@@ -28,15 +28,15 @@ import java.util.List;
  * @author Jörgen Persson
  */
 public class RadarChartResult {
-    public static String httpSuccessToJSON(List<HttpAccess> rowList) {
+    public static String httpSuccessToJSON(List<HTTPAccessTO> rowList) {
         return toJSON(rowList, "successful_requests");
     }
     
-    public static String httpFailureToJSON(List<HttpAccess> rowList) {
+    public static String httpFailureToJSON(List<HTTPAccessTO> rowList) {
         return toJSON(rowList, "failed_requests");
     }
     
-    private static String toJSON(List<HttpAccess> rowList, String dataSet) {
+    private static String toJSON(List<HTTPAccessTO> rowList, String dataSet) {
         StringBuilder json = new StringBuilder();
 
         json.append("{");
@@ -69,13 +69,13 @@ public class RadarChartResult {
         return json.toString();
     }
 
-    private static void createLists(List<HttpAccess> rowList, StringBuilder labelList, StringBuilder dataList) {
+    private static void createLists(List<HTTPAccessTO> rowList, StringBuilder labelList, StringBuilder dataList) {
         int index = 0;
         int size = rowList.size();
         labelList.append("[");
         dataList.append("[");
         while(index < size) {
-            HttpAccess row = rowList.get(index);
+            HTTPAccessTO row = rowList.get(index);
 
             String ipAddress = row.getIpAddress();
             Long httpRequestCount = row.getRequests();

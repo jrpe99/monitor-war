@@ -1,4 +1,6 @@
-package dk.jrpe.monitor.source.httpaccess.to;
+package dk.jrpe.monitor.db.to;
+
+import dk.jrpe.monitor.source.httpaccess.to.*;
 
 /**
  *
@@ -11,7 +13,8 @@ public class HTTPAccessTO {
     private String url;
     private String date;
     private String dateToMinute;    
-
+    private Long requests;
+    
     public String getHttpStatus() {
         return httpStatus;
     }
@@ -35,6 +38,14 @@ public class HTTPAccessTO {
     public String getDateToMinute() {
         return dateToMinute;
     }
+
+    public Long getRequests() {
+        return requests;
+    }
+
+    public void setRequests(Long requests) {
+        this.requests = requests;
+    }
     
     private HTTPAccessTO(HTTPAccessTOBuilder builder) {
         this.httpStatus = builder.httpStatus;
@@ -50,15 +61,28 @@ public class HTTPAccessTO {
         private String ipAddress;
         private String date;
         private String dateToMinute;    
-
+        private Long requests;
+        
         private String action = "GET";
         private String url = "/";
         
-        public HTTPAccessTOBuilder(String httpStatus, String ipAddress, String date, String dateToMinute) {
-            this.httpStatus = httpStatus;
+        public HTTPAccessTOBuilder(String ipAddress) {
             this.ipAddress = ipAddress;
+        }
+
+        public HTTPAccessTOBuilder setHttpStatus(String httpStatus) {
+            this.httpStatus = httpStatus;
+            return this;
+        }
+
+        public HTTPAccessTOBuilder setDate(String date) {
             this.date = date;
+            return this;
+        }
+
+        public HTTPAccessTOBuilder setDateToMinute(String dateToMinute) {
             this.dateToMinute = dateToMinute;
+            return this;
         }
 
         public HTTPAccessTOBuilder setAction(String action) {
@@ -68,6 +92,11 @@ public class HTTPAccessTO {
 
         public HTTPAccessTOBuilder setUrl(String url) {
             this.url = url;
+            return this;
+        }
+
+        public HTTPAccessTOBuilder setRequests(Long requests) {
+            this.requests = requests;
             return this;
         }
         

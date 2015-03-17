@@ -1,7 +1,7 @@
 package dk.jrpe.monitor.task;
 
 import dk.jrpe.monitor.db.strategy.DataSource;
-import dk.jrpe.monitor.db.to.HttpAccess;
+import dk.jrpe.monitor.db.to.HTTPAccessTO;
 import dk.jrpe.monitor.service.output.ChartEnum;
 import dk.jrpe.monitor.service.output.json.ResultHelper;
 import dk.jrpe.monitor.websocket.WebSocketHelper;
@@ -33,8 +33,8 @@ public class HttpRequestsMonitorTask extends MonitoringTask {
     @Override
     public void run() {
         try {
-            List<HttpAccess> successRowList = ResultHelper.sortHttpAccess(this.getDataSouce().getHttpSuccess());
-            List<HttpAccess> failedRowList = ResultHelper.sortHttpAccess(this.getDataSouce().getHttpSuccess());
+            List<HTTPAccessTO> successRowList = ResultHelper.sortHttpAccess(this.getDataSouce().getHttpSuccess());
+            List<HTTPAccessTO> failedRowList = ResultHelper.sortHttpAccess(this.getDataSouce().getHttpSuccess());
 
             ChartEnum.PIE_SUCCESS.toJSON(successRowList);
             ChartEnum.RADAR_SUCCESS.toJSON(successRowList);

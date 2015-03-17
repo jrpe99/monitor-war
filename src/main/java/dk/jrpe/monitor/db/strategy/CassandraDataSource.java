@@ -3,7 +3,8 @@ package dk.jrpe.monitor.db.strategy;
 import com.datastax.driver.core.Row;
 import dk.jrpe.monitor.db.cassandra.CassandraReadDAO;
 import dk.jrpe.monitor.db.cassandra.CassandraConnectionHandler;
-import dk.jrpe.monitor.db.to.HttpAccess;
+import dk.jrpe.monitor.db.cassandra.CassandraWriteDAO;
+import dk.jrpe.monitor.db.to.HTTPAccessTO;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +16,13 @@ public class CassandraDataSource implements DataSource {
 
     private CassandraConnectionHandler conn = null;
     private CassandraReadDAO readDao = null;
-    @Override public List<HttpAccess> getHttpSuccess() {
+    private CassandraWriteDAO writeDao = null;
+    
+    @Override public List<HTTPAccessTO> getHttpSuccess() {
         return adaptHttpAccess(this.readDao.getHttpSuccess());
     }
 
-    @Override public List<HttpAccess> getHttpFailed() {
+    @Override public List<HTTPAccessTO> getHttpFailed() {
         return adaptHttpAccess(this.readDao.getHttpFailed());
     }
     
@@ -31,6 +34,12 @@ public class CassandraDataSource implements DataSource {
         return this.readDao.getHttpSuccessPerMinute(date, from, to);
     }
 
+    @Override
+    public void setHttpSuccess(HTTPAccessTO to) {
+
+    
+    }
+    
     @Override public void open() {
         if(this.conn == null) {
             this.conn = new CassandraConnectionHandler();
@@ -45,10 +54,11 @@ public class CassandraDataSource implements DataSource {
         }
     }
 
-    private List<HttpAccess> adaptHttpAccess(List<Row> list) {
-        List<HttpAccess> adaptedList = new ArrayList<>();
+    private List<HTTPAccessTO> adaptHttpAccess(List<Row> list) {
+        List<HTTPAccessTO> adaptedList = new ArrayList<>();
         list.stream().forEach(row -> {
-            adaptedList.add(new HttpAccess(row.getString("ip_address"), row.getLong("requests")));
+            HTTPAccessTO to = new HTTPAccessTO.HTTPAccessTOBuilder(row.getString("ip_address")).setRequests(row.getLong("requests")).build();
+            adaptedList.add(to);
         });
         return adaptedList;
     }

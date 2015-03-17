@@ -17,7 +17,7 @@ public class HTTPAccessSimulator {
             conn.connect();
             HTTPAccessDAO httpAccessDAO = new HTTPAccessDAO(conn);
             while(true) {
-                httpAccessDAO.create(HTTPAccessTOFactory.createSimulated());
+                httpAccessDAO.saveAndUpdate(HTTPAccessTOFactory.createSimulated());
                 
                 int sleepTime = random.nextInt(500);
                 try {

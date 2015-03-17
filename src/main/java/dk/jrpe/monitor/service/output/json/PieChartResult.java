@@ -1,7 +1,7 @@
 package dk.jrpe.monitor.service.output.json;
 
 import com.datastax.driver.core.Row;
-import dk.jrpe.monitor.db.to.HttpAccess;
+import dk.jrpe.monitor.db.to.HTTPAccessTO;
 import java.util.List;
 
 /**
@@ -34,15 +34,15 @@ import java.util.List;
  * @author Jörgen Persson
  */
 public class PieChartResult {
-    public static String httpSuccessToJSON(List<HttpAccess> rowList) {
+    public static String httpSuccessToJSON(List<HTTPAccessTO> rowList) {
         return toJSON(rowList, "successful_requests", "00", "FA");
     }
     
-    public static String httpFailureToJSON(List<HttpAccess> rowList) {
+    public static String httpFailureToJSON(List<HTTPAccessTO> rowList) {
         return toJSON(rowList, "failed_requests", "FA", "00");
     }
     
-    private static String toJSON(List<HttpAccess> rowList, String dataSet,String colorSeed1, String colorSeed2) {
+    private static String toJSON(List<HTTPAccessTO> rowList, String dataSet,String colorSeed1, String colorSeed2) {
         StringBuilder json = new StringBuilder();
         
         json.append("{");
@@ -59,7 +59,7 @@ public class PieChartResult {
                 String hex = Integer.toHexString(color);
                 hex = hex.length() == 1 ? "0"+hex : hex;
                 String hexColor = colorSeed1 + hex + colorSeed2;
-                HttpAccess row = rowList.get(index);
+                HTTPAccessTO row = rowList.get(index);
 
                 String ipAddress = row.getIpAddress();
                 Long httpRequestCount = row.getRequests();
