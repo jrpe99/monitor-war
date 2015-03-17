@@ -1,5 +1,7 @@
 package dk.jrpe.monitor.db.datasource;
 
+import dk.jrpe.monitor.db.datasource.cassandra.CassandraDataSource;
+
 /**
  * Create current data source
  * @author Jörgen Persson

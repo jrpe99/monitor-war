@@ -1,6 +1,7 @@
-package dk.jrpe.monitor.db.datasource;
+package dk.jrpe.monitor.db.datasource.cassandra;
 
 import com.datastax.driver.core.Row;
+import dk.jrpe.monitor.db.datasource.DataSource;
 import dk.jrpe.monitor.db.datasource.cassandra.CassandraReadDAO;
 import dk.jrpe.monitor.db.datasource.cassandra.CassandraConnectionHandler;
 import dk.jrpe.monitor.db.datasource.cassandra.CassandraWriteDAO;

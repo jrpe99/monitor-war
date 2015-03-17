@@ -1,6 +1,6 @@
 package dk.jrpe.monitor.service;
 
-import dk.jrpe.monitor.db.datasource.CassandraDataSource;
+import dk.jrpe.monitor.db.datasource.cassandra.CassandraDataSource;
 import dk.jrpe.monitor.db.datasource.DataSource;
 import dk.jrpe.monitor.db.datasource.DataSourceFactory;
 import dk.jrpe.monitor.service.input.CommandHandler;
