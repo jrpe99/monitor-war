@@ -1,19 +1,17 @@
 package dk.jrpe.monitor.db.to;
 
-import dk.jrpe.monitor.source.httpaccess.to.*;
-
 /**
- *
+ * Immutable TO object for HTTP access data.
  * @author Jörgen Persson
  */
 public class HTTPAccessTO {
-    private String httpStatus;
-    private String ipAddress;
-    private String action;
-    private String url;
-    private String date;
-    private String dateToMinute;    
-    private Long requests;
+    private final String httpStatus;
+    private final String ipAddress;
+    private final String action;
+    private final String url;
+    private final String date;
+    private final String dateToMinute;    
+    private final Long requests;
     
     public String getHttpStatus() {
         return httpStatus;
@@ -43,10 +41,6 @@ public class HTTPAccessTO {
         return requests;
     }
 
-    public void setRequests(Long requests) {
-        this.requests = requests;
-    }
-    
     private HTTPAccessTO(HTTPAccessTOBuilder builder) {
         this.httpStatus = builder.httpStatus;
         this.ipAddress = builder.ipAddress;
