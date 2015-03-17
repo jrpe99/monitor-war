@@ -10,21 +10,23 @@ import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import dk.jrpe.monitor.db.cassandra.CassandraConnectionHandler;
 import dk.jrpe.monitor.db.cassandra.HTTPAccessDAO;
+import dk.jrpe.monitor.db.strategy.DataSource;
+import dk.jrpe.monitor.db.strategy.DataSourceFactory;
 import dk.jrpe.monitor.db.to.HTTPAccessTO;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @SuppressWarnings("serial")
 public class HTTPAccessBolt extends BaseRichBolt {
     private OutputCollector collector;
-    private CassandraConnectionHandler conn = null;
     private HTTPAccessDAO httpAccessDAO = null;
+    private DataSource dataSource = DataSourceFactory.getDataSource();
     
     @SuppressWarnings("rawtypes")
     public void prepare(Map conf, TopologyContext context, OutputCollector collector) {
         this.collector = collector;
-        conn = new CassandraConnectionHandler();
-        conn.connect();
-        httpAccessDAO = new HTTPAccessDAO(conn);
+        httpAccessDAO = new HTTPAccessDAO(DataSourceFactory.getDataSource());
     }
 
     @Override
@@ -44,6 +46,10 @@ public class HTTPAccessBolt extends BaseRichBolt {
 
     @Override
     public void cleanup() {
-        conn.close();
+        try {
+            this.dataSource.close();
+        } catch (Exception ex) {
+            Logger.getLogger(HTTPAccessBolt.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

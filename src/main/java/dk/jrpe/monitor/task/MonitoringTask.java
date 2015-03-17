@@ -1,7 +1,6 @@
 package dk.jrpe.monitor.task;
 
 import dk.jrpe.monitor.db.strategy.DataSource;
-import dk.jrpe.monitor.db.cassandra.CassandraConnectionHandler;
 import java.util.List;
 import javax.websocket.Session;
 
@@ -36,7 +35,7 @@ public abstract class MonitoringTask implements Runnable {
         return dataSource;
     }
     
-    public void cancel() {
+    public void cancel() throws Exception {
         this.dataSource.close();
     }
 }

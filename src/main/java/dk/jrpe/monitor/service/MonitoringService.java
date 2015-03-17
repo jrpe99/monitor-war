@@ -1,6 +1,8 @@
 package dk.jrpe.monitor.service;
 
 import dk.jrpe.monitor.db.strategy.CassandraDataSource;
+import dk.jrpe.monitor.db.strategy.DataSource;
+import dk.jrpe.monitor.db.strategy.DataSourceFactory;
 import dk.jrpe.monitor.service.input.CommandHandler;
 import dk.jrpe.monitor.task.HttpRequestsMonitorTask;
 import dk.jrpe.monitor.task.HttpRequestsPerMinuteMonitorTask;
@@ -11,6 +13,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.websocket.Session;
 
 /**
@@ -31,11 +35,12 @@ public class MonitoringService {
     private ScheduledExecutorService monitorTimer = null;
     
     private final List<MonitoringTask> monitoringTaskList = new ArrayList<>();
-    private List<Session> sessionList = new CopyOnWriteArrayList<>();
+    private final List<Session> sessionList = new CopyOnWriteArrayList<>();
 
     private MonitoringService() {
-        this.monitoringTaskList.add(new HttpRequestsMonitorTask(new CassandraDataSource(),sessionList, 1000));
-        this.monitoringTaskList.add(new HttpRequestsPerMinuteMonitorTask(new CassandraDataSource(), sessionList, 1000));
+        DataSource dataSource = DataSourceFactory.getDataSource();
+        this.monitoringTaskList.add(new HttpRequestsMonitorTask(dataSource, this.sessionList, 1000));
+        this.monitoringTaskList.add(new HttpRequestsPerMinuteMonitorTask(dataSource, this.sessionList, 1000));
         start();
     }
     
@@ -78,7 +83,11 @@ public class MonitoringService {
     public void stop() {
         monitorTimer.shutdown();
         monitoringTaskList.stream().forEach((monitoringTask) -> {
-            monitoringTask.cancel();
+            try {
+                monitoringTask.cancel();
+            } catch (Exception ex) {
+                Logger.getLogger(MonitoringService.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
     }
 

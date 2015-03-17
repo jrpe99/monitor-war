@@ -8,12 +8,17 @@ import java.util.List;
  *
  * @author Jörgen Persson
  */
-public interface DataSource {
+public interface DataSource extends AutoCloseable {
     public List<HTTPAccessTO> getHttpSuccess();
     public List<HTTPAccessTO> getHttpFailed();
     public List<Row> getHttpSuccessPerMinute(String date, String from, String to);
     public List<Row> getHttpFailedPerMinute(String date, String from, String to);
-    public void setHttpSuccess(HTTPAccessTO to);
-public void open();
-    public void close();
+
+    public void saveHttpAccess(HTTPAccessTO to, int hour, long time);
+    public void updateHttpSuccess(HTTPAccessTO to);
+    public void updateHttpSuccessPerMinute(HTTPAccessTO to);
+    public void updateHttpFailed(HTTPAccessTO to);
+    public void updateHttpFailedPerMinute(String date, String dateToMinute);
+    
+    public void open();
 }

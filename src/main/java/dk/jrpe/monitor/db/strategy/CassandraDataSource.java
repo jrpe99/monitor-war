@@ -34,12 +34,26 @@ public class CassandraDataSource implements DataSource {
         return this.readDao.getHttpSuccessPerMinute(date, from, to);
     }
 
-    @Override
-    public void setHttpSuccess(HTTPAccessTO to) {
-
-    
+    @Override public void saveHttpAccess(HTTPAccessTO to, int hour, long time) {
+        this.writeDao.saveHttpAccess(to, hour, time);
     }
-    
+
+    @Override public void updateHttpSuccess(HTTPAccessTO to) {
+        this.writeDao.updateHttpSuccess(to);
+    }
+
+    @Override public void updateHttpSuccessPerMinute(HTTPAccessTO to) {
+        this.writeDao.updateHttpSuccessPerMinute(to);
+    }
+
+    @Override public void updateHttpFailed(HTTPAccessTO to) {
+        this.writeDao.updateHttpFailed(to);
+    }
+
+    @Override public void updateHttpFailedPerMinute(String date, String dateToMinute) {
+        this.writeDao.updateHttpFailedPerMinute(date, dateToMinute);
+    }
+
     @Override public void open() {
         if(this.conn == null) {
             this.conn = new CassandraConnectionHandler();

@@ -1,5 +1,6 @@
 package dk.jrpe.monitor.db.cassandra;
 
+import dk.jrpe.monitor.db.strategy.DataSource;
 import dk.jrpe.monitor.db.to.HTTPAccessTO;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -8,10 +9,12 @@ import java.time.format.DateTimeFormatter;
  *
  * @author Jörgen Persson
  */
-public class HTTPAccessDAO extends CassandraWriteDAO {
+public class HTTPAccessDAO {
 
-    public HTTPAccessDAO(CassandraConnectionHandler conn) {
-        super(conn);
+    private DataSource dataSource = null;
+    
+    public HTTPAccessDAO(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
     
     public void saveAndUpdate(HTTPAccessTO to) {
@@ -19,7 +22,7 @@ public class HTTPAccessDAO extends CassandraWriteDAO {
         int hour = now.getHour();
         long epoch = now.toEpochSecond();
 
-        saveHttpAccess(to, hour, epoch);
+        this.dataSource.saveHttpAccess(to, hour, epoch);
 
         DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
         String date = formatter.format(now);
@@ -28,11 +31,11 @@ public class HTTPAccessDAO extends CassandraWriteDAO {
         String dateToMinute = formatter.format(now);
 
         if(to.getHttpStatus().equals("200")) {
-            updateHttpSuccess(to);
-            updateHttpSuccessPerMinute(to);
+            this.dataSource.updateHttpSuccess(to);
+            this.dataSource.updateHttpSuccessPerMinute(to);
         } else {
-            updateHttpFailed(to);
-            updateHttpFailedPerMinute(date, dateToMinute);
+            this.dataSource.updateHttpFailed(to);
+            this.dataSource.updateHttpFailedPerMinute(date, dateToMinute);
         }
     }
 }
