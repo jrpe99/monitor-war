@@ -1,6 +1,6 @@
 package dk.jrpe.monitor.task;
 
-import dk.jrpe.monitor.db.strategy.DataSource;
+import dk.jrpe.monitor.db.datasource.DataSource;
 import dk.jrpe.monitor.db.to.HTTPAccessTO;
 import dk.jrpe.monitor.service.output.ChartEnum;
 import dk.jrpe.monitor.service.output.json.ResultHelper;

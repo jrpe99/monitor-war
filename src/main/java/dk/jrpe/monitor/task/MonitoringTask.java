@@ -1,6 +1,6 @@
 package dk.jrpe.monitor.task;
 
-import dk.jrpe.monitor.db.strategy.DataSource;
+import dk.jrpe.monitor.db.datasource.DataSource;
 import java.util.List;
 import javax.websocket.Session;
 

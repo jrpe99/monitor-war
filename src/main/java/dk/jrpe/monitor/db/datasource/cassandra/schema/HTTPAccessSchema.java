@@ -1,7 +1,7 @@
-package dk.jrpe.monitor.db.cassandra.schema;
+package dk.jrpe.monitor.db.datasource.cassandra.schema;
 
 
-import dk.jrpe.monitor.db.cassandra.CassandraConnectionHandler;
+import dk.jrpe.monitor.db.datasource.cassandra.CassandraConnectionHandler;
 
 public class HTTPAccessSchema {
     public static void main(String[] args) {

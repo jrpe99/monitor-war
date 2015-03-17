@@ -1,4 +1,4 @@
-package dk.jrpe.monitor.db.cassandra;
+package dk.jrpe.monitor.db.datasource.cassandra;
 
 import dk.jrpe.monitor.db.to.HTTPAccessTO;
 

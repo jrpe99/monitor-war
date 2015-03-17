@@ -1,6 +1,6 @@
-package dk.jrpe.monitor.db.cassandra;
+package dk.jrpe.monitor.db.datasource.cassandra;
 
-import dk.jrpe.monitor.db.strategy.DataSource;
+import dk.jrpe.monitor.db.datasource.DataSource;
 import dk.jrpe.monitor.db.to.HTTPAccessTO;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;

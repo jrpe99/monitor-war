@@ -1,9 +1,9 @@
-package dk.jrpe.monitor.db.strategy;
+package dk.jrpe.monitor.db.datasource;
 
 import com.datastax.driver.core.Row;
-import dk.jrpe.monitor.db.cassandra.CassandraReadDAO;
-import dk.jrpe.monitor.db.cassandra.CassandraConnectionHandler;
-import dk.jrpe.monitor.db.cassandra.CassandraWriteDAO;
+import dk.jrpe.monitor.db.datasource.cassandra.CassandraReadDAO;
+import dk.jrpe.monitor.db.datasource.cassandra.CassandraConnectionHandler;
+import dk.jrpe.monitor.db.datasource.cassandra.CassandraWriteDAO;
 import dk.jrpe.monitor.db.to.HTTPAccessTO;
 import java.util.ArrayList;
 import java.util.List;

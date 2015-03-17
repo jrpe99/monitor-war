@@ -1,4 +1,4 @@
-package dk.jrpe.monitor.db.memory;
+package dk.jrpe.monitor.db.datasource.memory;
 
 /**
  *

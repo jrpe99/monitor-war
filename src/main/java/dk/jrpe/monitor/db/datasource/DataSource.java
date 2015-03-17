@@ -1,4 +1,4 @@
-package dk.jrpe.monitor.db.strategy;
+package dk.jrpe.monitor.db.datasource;
 
 import com.datastax.driver.core.Row;
 import dk.jrpe.monitor.db.to.HTTPAccessTO;

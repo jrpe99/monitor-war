@@ -1,4 +1,4 @@
-package dk.jrpe.monitor.db.cassandra;
+package dk.jrpe.monitor.db.datasource.cassandra;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Cluster;

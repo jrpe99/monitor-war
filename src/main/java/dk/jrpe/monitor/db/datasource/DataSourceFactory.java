@@ -1,4 +1,4 @@
-package dk.jrpe.monitor.db.strategy;
+package dk.jrpe.monitor.db.datasource;
 
 /**
  * Create current data source
