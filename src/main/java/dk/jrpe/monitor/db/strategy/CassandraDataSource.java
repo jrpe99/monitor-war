@@ -31,7 +31,7 @@ public class CassandraDataSource implements DataSource {
     }
 
     @Override public List<Row> getHttpFailedPerMinute(String date, String from, String to) {
-        return this.readDao.getHttpSuccessPerMinute(date, from, to);
+        return this.readDao.getHttpFailedPerMinute(date, from, to);
     }
 
     @Override public void saveHttpAccess(HTTPAccessTO to, int hour, long time) {
@@ -59,6 +59,7 @@ public class CassandraDataSource implements DataSource {
             this.conn = new CassandraConnectionHandler();
             this.conn.connect();
             this.readDao = new CassandraReadDAO(this.conn);
+            this.writeDao = new CassandraWriteDAO(this.conn);
         }
     }
 
