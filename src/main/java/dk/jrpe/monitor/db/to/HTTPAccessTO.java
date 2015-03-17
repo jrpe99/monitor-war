@@ -54,6 +54,7 @@ public class HTTPAccessTO {
         this.dateToMinute = builder.dateToMinute;
         this.action = builder.action;
         this.url = builder.url;
+        this.requests = builder.requests;
     }
     
     public static class HTTPAccessTOBuilder{
