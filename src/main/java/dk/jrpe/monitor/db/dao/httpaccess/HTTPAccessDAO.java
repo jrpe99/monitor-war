@@ -1,9 +1,8 @@
-package dk.jrpe.monitor.db.dao;
+package dk.jrpe.monitor.db.dao.httpaccess;
 
 import dk.jrpe.monitor.db.datasource.DataSource;
-import dk.jrpe.monitor.db.to.HTTPAccessTO;
+import dk.jrpe.monitor.db.dao.httpaccess.to.HTTPAccessTO;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -18,24 +17,19 @@ public class HTTPAccessDAO {
     }
     
     public void saveAndUpdate(HTTPAccessTO to) {
+        System.out.println("Save: " + to.toString());
         ZonedDateTime now = ZonedDateTime.now().withSecond(0).withNano(0);
         int hour = now.getHour();
         long epoch = now.toEpochSecond();
 
-        this.dataSource.saveHttpAccess(to, hour, epoch);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
-        String date = formatter.format(now);
-
-        formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-        String dateToMinute = formatter.format(now);
+        this.dataSource.saveHttpAccess(to, hour);
 
         if(to.getHttpStatus().equals("200")) {
             this.dataSource.updateHttpSuccess(to);
             this.dataSource.updateHttpSuccessPerMinute(to);
         } else {
             this.dataSource.updateHttpFailed(to);
-            this.dataSource.updateHttpFailedPerMinute(date, dateToMinute);
+            this.dataSource.updateHttpFailedPerMinute(to);
         }
     }
 }

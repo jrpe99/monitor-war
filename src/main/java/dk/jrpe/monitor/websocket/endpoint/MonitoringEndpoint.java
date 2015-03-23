@@ -1,7 +1,7 @@
-package dk.jrpe.monitor.websocket;
+package dk.jrpe.monitor.websocket.endpoint;
 
 import dk.jrpe.monitor.service.MonitoringService;
-import dk.jrpe.monitor.service.input.CommandHandler;
+import dk.jrpe.monitor.service.command.CommandHandler;
 import javax.websocket.CloseReason;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
@@ -15,10 +15,9 @@ import javax.websocket.server.ServerEndpoint;
  * @author Jörgen Persson
  */
 @ServerEndpoint(
-    value = "/monitor",
-    decoders = {JSONDecoder.class}
+    value = "/monitor"
 )
-public class MonitoringServer {
+public class MonitoringEndpoint {
 
     /**
      * Create the monitoring service when the WebSocket end-point is created.
@@ -50,12 +49,11 @@ public class MonitoringServer {
 
     /**
      * Handle commands sent from the client.
-     * @param cmd
+     * @param json
      * @param session
      */
     @OnMessage
-    public void handleMessage(CommandHandler cmd, Session session){
-        cmd.setSession(session);
-        monitorService.handleCommand(cmd);
+    public void handleMessage(String json, Session session){
+        monitorService.executeCommand(json);
     }
 }

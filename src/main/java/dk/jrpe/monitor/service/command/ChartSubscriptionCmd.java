@@ -1,7 +1,7 @@
-package dk.jrpe.monitor.service.input.command;
+package dk.jrpe.monitor.service.command;
 
-import dk.jrpe.monitor.service.input.CommandHandler;
-import dk.jrpe.monitor.service.output.ChartSubscriptionHandler;
+import dk.jrpe.monitor.service.command.CommandHandler;
+import dk.jrpe.monitor.service.chart.ChartSubscriptionHandler;
 import java.util.List;
 
 /**

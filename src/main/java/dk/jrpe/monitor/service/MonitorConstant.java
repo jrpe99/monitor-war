@@ -1,4 +1,4 @@
-package dk.jrpe.monitor.service.output;
+package dk.jrpe.monitor.service;
 
 /**
  *

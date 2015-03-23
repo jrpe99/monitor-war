@@ -1,15 +1,16 @@
-package dk.jrpe.monitor.db.datasource.cassandra;
+package dk.jrpe.monitor.db.dao.httpaccess;
 
-import dk.jrpe.monitor.db.to.HTTPAccessTO;
+import dk.jrpe.monitor.db.datasource.cassandra.CassandraConnectionHandler;
+import dk.jrpe.monitor.db.dao.httpaccess.to.HTTPAccessTO;
 
 
-public class CassandraWriteDAO extends CassandraDAO {
+public class CassandraHTTPAccessWriteDAO extends CassandraDAO {
 
-    public CassandraWriteDAO(CassandraConnectionHandler conn) {
+    public CassandraHTTPAccessWriteDAO(CassandraConnectionHandler conn) {
         super(conn);
     }
     
-    public void saveHttpAccess(HTTPAccessTO to, int hour, long time) {
+    public void saveHttpAccess(HTTPAccessTO to, int hour) {
         StringBuilder cql = new StringBuilder();
         cql.append("INSERT INTO httpaccess.http_access (hour,ip_address,http_status,action,url,date_to_minute) ");
         cql.append("VALUES ");
@@ -19,7 +20,7 @@ public class CassandraWriteDAO extends CassandraDAO {
         cql.append("'").append(to.getHttpStatus()).append("',");
         cql.append("'").append(to.getAction()).append("',");
         cql.append("'").append(to.getUrl()).append("',");
-        cql.append("'").append(time).append("'");
+        cql.append("'").append(to.getDateTime()).append("'");
         cql.append(")");
         conn.execute(cql.toString());
     }
@@ -55,14 +56,14 @@ public class CassandraWriteDAO extends CassandraDAO {
         conn.execute(cql.toString());
     }
 
-    public void updateHttpFailedPerMinute(String date, String dateToMinute) {
+    public void updateHttpFailedPerMinute(HTTPAccessTO to) {
         StringBuilder cql = new StringBuilder();
         cql.append("UPDATE httpaccess.http_failed_per_minute ");
         cql.append("SET ");
         cql.append("requests=requests+1 ");
         cql.append("WHERE ");
-        cql.append("date='").append(date).append("' and ");
-        cql.append("date_to_minute='").append(dateToMinute).append("'");
+        cql.append("date='").append(to.getDate()).append("' and ");
+        cql.append("date_to_minute='").append(to.getDateToMinute()).append("'");
         conn.execute(cql.toString());
     }
 }

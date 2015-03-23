@@ -1,6 +1,7 @@
-package dk.jrpe.monitor.service.output.json;
+package dk.jrpe.monitor.service.chart.json;
 
 import com.datastax.driver.core.Row;
+import dk.jrpe.monitor.db.dao.httpaccess.to.HTTPAccessTO;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,8 +30,8 @@ import java.util.Map;
  * 
  * @author Jörgen Persson
  */
-public class LineChartResult {
-    public static String toJSON(HashMap<String,List<Row>> dataSetMap, int period) {
+public class LineChartJSONAdapter {
+    public static String toJSON(HashMap<String,List<HTTPAccessTO>> dataSetMap, int period) {
         StringBuilder json = new StringBuilder();
         json.append("{");
         json.append("\"chart\": \"line\",");
@@ -41,9 +42,9 @@ public class LineChartResult {
 
         int index = 0;
         int size = dataSetMap.size();
-        for (Map.Entry<String, List<Row>> entrySet : dataSetMap.entrySet()) {
+        for (Map.Entry<String, List<HTTPAccessTO>> entrySet : dataSetMap.entrySet()) {
             String key = entrySet.getKey();
-            List<Row> value = entrySet.getValue();
+            List<HTTPAccessTO> value = entrySet.getValue();
             
             dataSetTOJSON(json, key, createDataList(value));
                     
@@ -73,14 +74,14 @@ public class LineChartResult {
         return json.toString();
     }
 
-    private static String createDataList(List<Row> rowList) {
+    private static String createDataList(List<HTTPAccessTO> list) {
         StringBuilder dataList = new StringBuilder();
         int index = 0;
-        int size = rowList.size();
+        int size = list.size();
         dataList.append("[");
         while(index < size) {
-            Row row = rowList.get(index);
-            Long requests = row.getLong("requests");
+            HTTPAccessTO to = list.get(index);
+            Long requests = to.getRequests();
             dataList.append(requests);
             index++; 
             if(index < size){

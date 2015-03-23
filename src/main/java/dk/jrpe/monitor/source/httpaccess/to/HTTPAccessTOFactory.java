@@ -1,6 +1,6 @@
 package dk.jrpe.monitor.source.httpaccess.to;
 
-import dk.jrpe.monitor.db.to.HTTPAccessTO;
+import dk.jrpe.monitor.db.dao.httpaccess.to.HTTPAccessTO;
 import dk.jrpe.monitor.source.httpaccess.simulate.SimulationConstants;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -37,11 +37,16 @@ public class HTTPAccessTOFactory {
             
         formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
         String dateToMinute = formatter.format(now);
+        
+        now = ZonedDateTime.now();
+        
         //httpStatus, ipAddress, date, dateToMinute
-        return new HTTPAccessTO.HTTPAccessTOBuilder(ipAddress)
+        return new HTTPAccessTO.Builder()
+                .setIPAdress(ipAddress)
                 .setHttpStatus(httpStatus)
                 .setDate(date)
                 .setDateToMinute(dateToMinute)
+                .setDateTime(""+now.toEpochSecond())
                 .setAction(action)
                 .setUrl(url)
                 .build();

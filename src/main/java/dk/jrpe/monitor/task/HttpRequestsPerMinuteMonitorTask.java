@@ -1,10 +1,11 @@
 package dk.jrpe.monitor.task;
 
 import com.datastax.driver.core.Row;
-import dk.jrpe.monitor.db.datasource.cassandra.CassandraReadDAO;
+import dk.jrpe.monitor.db.dao.httpaccess.CassandraHTTPAccessReadDAO;
 import dk.jrpe.monitor.db.datasource.DataSource;
-import dk.jrpe.monitor.service.output.ChartEnum;
-import dk.jrpe.monitor.service.output.json.LineChartResult;
+import dk.jrpe.monitor.db.dao.httpaccess.to.HTTPAccessTO;
+import dk.jrpe.monitor.service.chart.ChartEnum;
+import dk.jrpe.monitor.service.chart.json.LineChartJSONAdapter;
 import dk.jrpe.monitor.websocket.WebSocketHelper;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -35,7 +36,7 @@ public class HttpRequestsPerMinuteMonitorTask extends MonitoringTask {
     @Override
     public void run() {
         try {
-            HashMap<String, List<Row>> dataSetMap = new HashMap<>();
+            HashMap<String, List<HTTPAccessTO>> dataSetMap = new HashMap<>();
 
             /* Create FROM and TO date (30 minutes in the past) */
             ZonedDateTime now = ZonedDateTime.now().withSecond(0).withNano(0);
@@ -45,13 +46,13 @@ public class HttpRequestsPerMinuteMonitorTask extends MonitoringTask {
             String to = formatter.format(now);
             String from = formatter.format(now.minusMinutes(30));
 
-            List<Row> successList = this.getDataSouce().getHttpSuccessPerMinute(date, from, to);
-            List<Row> failedList = this.getDataSouce().getHttpFailedPerMinute(date, from, to);
+            List<HTTPAccessTO> successList = this.getDataSouce().getHttpSuccessPerMinute(date, from, to);
+            List<HTTPAccessTO> failedList = this.getDataSouce().getHttpFailedPerMinute(date, from, to);
             dataSetMap.put("Success", successList);
             dataSetMap.put("Failed", failedList);
 
             /* Get JSON for the Line chart */
-            String json = LineChartResult.toJSON(dataSetMap, 30);
+            String json = LineChartJSONAdapter.toJSON(dataSetMap, 30);
             ChartEnum lineChart = ChartEnum.valueOf(ChartEnum.LINE_SUCCESS_AND_FAILED.toString());
             lineChart.setJson(json);
 

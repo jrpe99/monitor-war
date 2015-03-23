@@ -1,13 +1,13 @@
 package dk.jrpe.monitor.db.datasource.cassandra;
 
+import dk.jrpe.monitor.db.dao.httpaccess.CassandraHTTPAccessReadDAO;
+import dk.jrpe.monitor.db.dao.httpaccess.CassandraHTTPAccessWriteDAO;
 import com.datastax.driver.core.Row;
 import dk.jrpe.monitor.db.datasource.DataSource;
-import dk.jrpe.monitor.db.datasource.cassandra.CassandraReadDAO;
-import dk.jrpe.monitor.db.datasource.cassandra.CassandraConnectionHandler;
-import dk.jrpe.monitor.db.datasource.cassandra.CassandraWriteDAO;
-import dk.jrpe.monitor.db.to.HTTPAccessTO;
+import dk.jrpe.monitor.db.dao.httpaccess.to.HTTPAccessTO;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -16,8 +16,8 @@ import java.util.List;
 public class CassandraDataSource implements DataSource {
 
     private CassandraConnectionHandler conn = null;
-    private CassandraReadDAO readDao = null;
-    private CassandraWriteDAO writeDao = null;
+    private CassandraHTTPAccessReadDAO readDao = null;
+    private CassandraHTTPAccessWriteDAO writeDao = null;
     
     @Override public List<HTTPAccessTO> getHttpSuccess() {
         return adaptHttpAccess(this.readDao.getHttpSuccess());
@@ -27,16 +27,16 @@ public class CassandraDataSource implements DataSource {
         return adaptHttpAccess(this.readDao.getHttpFailed());
     }
     
-    @Override public List<Row> getHttpSuccessPerMinute(String date, String from, String to) {
-        return this.readDao.getHttpSuccessPerMinute(date, from, to);
+    @Override public List<HTTPAccessTO> getHttpSuccessPerMinute(String date, String from, String to) {
+        return adaptHttpAccess(this.readDao.getHttpSuccessPerMinute(date, from, to));
     }
 
-    @Override public List<Row> getHttpFailedPerMinute(String date, String from, String to) {
-        return this.readDao.getHttpFailedPerMinute(date, from, to);
+    @Override public List<HTTPAccessTO> getHttpFailedPerMinute(String date, String from, String to) {
+        return adaptHttpAccess(this.readDao.getHttpFailedPerMinute(date, from, to));
     }
 
-    @Override public void saveHttpAccess(HTTPAccessTO to, int hour, long time) {
-        this.writeDao.saveHttpAccess(to, hour, time);
+    @Override public void saveHttpAccess(HTTPAccessTO to, int hour) {
+        this.writeDao.saveHttpAccess(to, hour);
     }
 
     @Override public void updateHttpSuccess(HTTPAccessTO to) {
@@ -51,16 +51,16 @@ public class CassandraDataSource implements DataSource {
         this.writeDao.updateHttpFailed(to);
     }
 
-    @Override public void updateHttpFailedPerMinute(String date, String dateToMinute) {
-        this.writeDao.updateHttpFailedPerMinute(date, dateToMinute);
+    @Override public void updateHttpFailedPerMinute(HTTPAccessTO to) {
+        this.writeDao.updateHttpFailedPerMinute(to);
     }
 
     @Override public void open() {
         if(this.conn == null) {
             this.conn = new CassandraConnectionHandler();
             this.conn.connect();
-            this.readDao = new CassandraReadDAO(this.conn);
-            this.writeDao = new CassandraWriteDAO(this.conn);
+            this.readDao = new CassandraHTTPAccessReadDAO(this.conn);
+            this.writeDao = new CassandraHTTPAccessWriteDAO(this.conn);
         }
     }
 
@@ -71,11 +71,11 @@ public class CassandraDataSource implements DataSource {
     }
 
     private List<HTTPAccessTO> adaptHttpAccess(List<Row> list) {
-        List<HTTPAccessTO> adaptedList = new ArrayList<>();
-        list.stream().forEach(row -> {
-            HTTPAccessTO to = new HTTPAccessTO.HTTPAccessTOBuilder(row.getString("ip_address")).setRequests(row.getLong("requests")).build();
-            adaptedList.add(to);
-        });
+        List<HTTPAccessTO> adaptedList = list.stream().map(row -> 
+            new HTTPAccessTO.Builder()
+                .setIPAdress(row.getString("ip_address"))
+                .setRequests(row.getLong("requests")).build()
+        ).collect(Collectors.toList());
         return adaptedList;
     }
 }

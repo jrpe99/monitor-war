@@ -1,7 +1,7 @@
 package dk.jrpe.monitor.websocket;
 
-import dk.jrpe.monitor.service.output.ChartEnum;
-import dk.jrpe.monitor.service.output.MonitorConstant;
+import dk.jrpe.monitor.service.chart.ChartEnum;
+import dk.jrpe.monitor.service.MonitorConstant;
 import java.io.IOException;
 import java.util.EnumSet;
 import java.util.List;

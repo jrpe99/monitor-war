@@ -1,7 +1,7 @@
-package dk.jrpe.monitor.service.output.json;
+package dk.jrpe.monitor.service.chart.json;
 
 import com.datastax.driver.core.Row;
-import dk.jrpe.monitor.db.to.HTTPAccessTO;
+import dk.jrpe.monitor.db.dao.httpaccess.to.HTTPAccessTO;
 import java.util.List;
 
 /**
@@ -33,7 +33,7 @@ import java.util.List;
  * 
  * @author Jörgen Persson
  */
-public class PieChartResult {
+public class PieChartJSONAdapter {
     public static String httpSuccessToJSON(List<HTTPAccessTO> rowList) {
         return toJSON(rowList, "successful_requests", "00", "FA");
     }

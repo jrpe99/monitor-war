@@ -1,5 +1,6 @@
-package dk.jrpe.monitor.service.output;
+package dk.jrpe.monitor.service.chart;
 
+import dk.jrpe.monitor.service.MonitorConstant;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;

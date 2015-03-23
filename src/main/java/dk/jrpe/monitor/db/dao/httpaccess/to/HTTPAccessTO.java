@@ -1,16 +1,19 @@
-package dk.jrpe.monitor.db.to;
+package dk.jrpe.monitor.db.dao.httpaccess.to;
+
+import java.io.Serializable;
 
 /**
  * Immutable TO object for HTTP access data.
  * @author Jörgen Persson
  */
-public class HTTPAccessTO {
+public class HTTPAccessTO implements Serializable {
     private final String httpStatus;
     private final String ipAddress;
     private final String action;
     private final String url;
     private final String date;
     private final String dateToMinute;    
+    private final String dateTime;    
     private final Long requests;
     
     public String getHttpStatus() {
@@ -37,60 +40,72 @@ public class HTTPAccessTO {
         return dateToMinute;
     }
 
+    public String getDateTime() {
+        return dateTime;
+    }
+
     public Long getRequests() {
         return requests;
     }
 
-    private HTTPAccessTO(HTTPAccessTOBuilder builder) {
+    private HTTPAccessTO(Builder builder) {
         this.httpStatus = builder.httpStatus;
         this.ipAddress = builder.ipAddress;
         this.date = builder.date;
         this.dateToMinute = builder.dateToMinute;
+        this.dateTime = builder.dateTime;
         this.action = builder.action;
         this.url = builder.url;
         this.requests = builder.requests;
     }
     
-    public static class HTTPAccessTOBuilder{
+    public static class Builder{
         private String httpStatus;
         private String ipAddress;
         private String date;
+        private String dateTime;
         private String dateToMinute;    
-        private Long requests;
+        private Long requests = new Long("0");
         
         private String action = "GET";
         private String url = "/";
         
-        public HTTPAccessTOBuilder(String ipAddress) {
-            this.ipAddress = ipAddress;
-        }
-
-        public HTTPAccessTOBuilder setHttpStatus(String httpStatus) {
+        public Builder setHttpStatus(String httpStatus) {
             this.httpStatus = httpStatus;
             return this;
         }
 
-        public HTTPAccessTOBuilder setDate(String date) {
+        public Builder setIPAdress(String ipAddress) {
+            this.ipAddress = ipAddress;
+            return this;
+        }
+
+        public Builder setDate(String date) {
             this.date = date;
             return this;
         }
 
-        public HTTPAccessTOBuilder setDateToMinute(String dateToMinute) {
+        public Builder setDateTime(String dateTime) {
+            this.dateTime = dateTime;
+            return this;
+        }
+
+        public Builder setDateToMinute(String dateToMinute) {
             this.dateToMinute = dateToMinute;
             return this;
         }
 
-        public HTTPAccessTOBuilder setAction(String action) {
+        public Builder setAction(String action) {
             this.action = action;
             return this;
         }
 
-        public HTTPAccessTOBuilder setUrl(String url) {
+        public Builder setUrl(String url) {
             this.url = url;
             return this;
         }
 
-        public HTTPAccessTOBuilder setRequests(Long requests) {
+        public Builder setRequests(Long requests) {
             this.requests = requests;
             return this;
         }
@@ -98,5 +113,10 @@ public class HTTPAccessTO {
         public HTTPAccessTO build() {
             return new HTTPAccessTO(this);
         }
-    }    
+    }
+
+    @Override
+    public String toString() {
+        return "HTTPAccessTO{" + "httpStatus=" + httpStatus + ", ipAddress=" + ipAddress + ", action=" + action + ", url=" + url + ", date=" + date + ", dateToMinute=" + dateToMinute + ", dateTime=" + dateTime + ", requests=" + requests + '}';
+    }
 }

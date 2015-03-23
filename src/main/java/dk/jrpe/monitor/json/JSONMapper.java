@@ -1,6 +1,6 @@
 package dk.jrpe.monitor.json;
 
-import dk.jrpe.monitor.service.input.command.Command;
+import dk.jrpe.monitor.service.command.Command;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

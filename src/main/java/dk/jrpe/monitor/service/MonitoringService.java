@@ -3,7 +3,7 @@ package dk.jrpe.monitor.service;
 import dk.jrpe.monitor.db.datasource.cassandra.CassandraDataSource;
 import dk.jrpe.monitor.db.datasource.DataSource;
 import dk.jrpe.monitor.db.datasource.DataSourceFactory;
-import dk.jrpe.monitor.service.input.CommandHandler;
+import dk.jrpe.monitor.service.command.CommandHandler;
 import dk.jrpe.monitor.task.HttpRequestsMonitorTask;
 import dk.jrpe.monitor.task.HttpRequestsPerMinuteMonitorTask;
 import dk.jrpe.monitor.task.MonitoringTask;
@@ -38,10 +38,14 @@ public class MonitoringService {
     private final List<Session> sessionList = new CopyOnWriteArrayList<>();
 
     private MonitoringService() {
-        DataSource dataSource = DataSourceFactory.getDataSource();
-        this.monitoringTaskList.add(new HttpRequestsMonitorTask(dataSource, this.sessionList, 1000));
-        this.monitoringTaskList.add(new HttpRequestsPerMinuteMonitorTask(dataSource, this.sessionList, 1000));
-        start();
+        try {
+            DataSource dataSource = DataSourceFactory.getDefault();
+            this.monitoringTaskList.add(new HttpRequestsMonitorTask(dataSource, this.sessionList, 1000));
+            this.monitoringTaskList.add(new HttpRequestsPerMinuteMonitorTask(dataSource, this.sessionList, 1000));
+            start();
+        } catch (Exception e) {
+            Logger.getLogger(MonitoringService.class.getName()).log(Level.SEVERE, null, e);
+        }
     }
     
     /**
@@ -71,11 +75,11 @@ public class MonitoringService {
     }
 
     /**
-     *
-     * @param cmd
+     * Execute the command sent from the client
+     * @param json
      */
-    public void handleCommand(CommandHandler cmd) {
-        cmd.execute();
+    public void executeCommand(String json) {
+        CommandHandler.execute(json);
     }
     /**
      * Stop the monitoring timer.

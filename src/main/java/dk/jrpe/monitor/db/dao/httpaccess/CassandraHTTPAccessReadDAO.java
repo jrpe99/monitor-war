@@ -1,16 +1,17 @@
-package dk.jrpe.monitor.db.datasource.cassandra;
+package dk.jrpe.monitor.db.dao.httpaccess;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
+import dk.jrpe.monitor.db.datasource.cassandra.CassandraConnectionHandler;
 import java.util.List;
 
 /**
  *
  * @author Jörgen Persson
  */
-public class CassandraReadDAO extends CassandraDAO {
+public class CassandraHTTPAccessReadDAO extends CassandraDAO {
 
-    public CassandraReadDAO(CassandraConnectionHandler conn) {
+    public CassandraHTTPAccessReadDAO(CassandraConnectionHandler conn) {
         super(conn);
     }
     

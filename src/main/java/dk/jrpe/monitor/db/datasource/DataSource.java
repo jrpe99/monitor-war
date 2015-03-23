@@ -1,7 +1,6 @@
 package dk.jrpe.monitor.db.datasource;
 
-import com.datastax.driver.core.Row;
-import dk.jrpe.monitor.db.to.HTTPAccessTO;
+import dk.jrpe.monitor.db.dao.httpaccess.to.HTTPAccessTO;
 import java.util.List;
 
 /**
@@ -11,14 +10,14 @@ import java.util.List;
 public interface DataSource extends AutoCloseable {
     public List<HTTPAccessTO> getHttpSuccess();
     public List<HTTPAccessTO> getHttpFailed();
-    public List<Row> getHttpSuccessPerMinute(String date, String from, String to);
-    public List<Row> getHttpFailedPerMinute(String date, String from, String to);
+    public List<HTTPAccessTO> getHttpSuccessPerMinute(String date, String from, String to);
+    public List<HTTPAccessTO> getHttpFailedPerMinute(String date, String from, String to);
 
-    public void saveHttpAccess(HTTPAccessTO to, int hour, long time);
+    public void saveHttpAccess(HTTPAccessTO to, int hour);
     public void updateHttpSuccess(HTTPAccessTO to);
     public void updateHttpSuccessPerMinute(HTTPAccessTO to);
     public void updateHttpFailed(HTTPAccessTO to);
-    public void updateHttpFailedPerMinute(String date, String dateToMinute);
+    public void updateHttpFailedPerMinute(HTTPAccessTO to);
     
     public void open();
 }

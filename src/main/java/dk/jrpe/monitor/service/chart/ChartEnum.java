@@ -1,8 +1,8 @@
-package dk.jrpe.monitor.service.output;
+package dk.jrpe.monitor.service.chart;
 
-import dk.jrpe.monitor.db.to.HTTPAccessTO;
-import dk.jrpe.monitor.service.output.json.PieChartResult;
-import dk.jrpe.monitor.service.output.json.RadarChartResult;
+import dk.jrpe.monitor.db.dao.httpaccess.to.HTTPAccessTO;
+import dk.jrpe.monitor.service.chart.json.PieChartJSONAdapter;
+import dk.jrpe.monitor.service.chart.json.RadarChartJSONAdapter;
 import java.util.List;
 import java.util.function.Function;
 
@@ -13,10 +13,10 @@ import java.util.function.Function;
  * @author Jörgen Persson
  */
 public enum ChartEnum {
-    PIE_SUCCESS(1, (list -> {return PieChartResult.httpSuccessToJSON(list);})),
-    PIE_FAILED(2, (list -> {return PieChartResult.httpFailureToJSON(list);})),
-    RADAR_SUCCESS(3, (list -> {return RadarChartResult.httpSuccessToJSON(list);})),
-    RADAR_FAILED(4, (list -> {return RadarChartResult.httpFailureToJSON(list);})),
+    PIE_SUCCESS(1, (list -> {return PieChartJSONAdapter.httpSuccessToJSON(list);})),
+    PIE_FAILED(2, (list -> {return PieChartJSONAdapter.httpFailureToJSON(list);})),
+    RADAR_SUCCESS(3, (list -> {return RadarChartJSONAdapter.httpSuccessToJSON(list);})),
+    RADAR_FAILED(4, (list -> {return RadarChartJSONAdapter.httpFailureToJSON(list);})),
     LINE_SUCCESS_AND_FAILED(5, (list -> {
         // Does not have the same interface yet ...
         throw new UnsupportedOperationException();
