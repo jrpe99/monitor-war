@@ -45,13 +45,13 @@ public class CommandHandler {
     }
 
     private static final ObjectMapper jsonMapper = new ObjectMapper();
-    private Session session;
+
     private CommandEnum command;
+    private Session session;
     private String json;
 
     private void executeConcreteCommand() {
-        System.out.println("Execute command:");
-        System.out.println(this.command.toString());
+        System.out.println("Execute concrete command: " + this.command.toString());
         this.command.execute(this);
     }
 
