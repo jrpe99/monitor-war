@@ -1,7 +1,7 @@
-package dk.jrpe.monitor.db.datasource.inmemory;
+package dk.jrpe.monitor.db.inmemory;
 
 import dk.jrpe.monitor.db.datasource.DataSource;
-import dk.jrpe.monitor.db.dao.httpaccess.to.HTTPAccessTO;
+import dk.jrpe.monitor.db.httpaccess.to.HTTPAccessTO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;

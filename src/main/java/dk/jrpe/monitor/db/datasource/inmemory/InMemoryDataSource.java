@@ -1,7 +1,8 @@
 package dk.jrpe.monitor.db.datasource.inmemory;
 
+import dk.jrpe.monitor.db.inmemory.InMemoryDataBase;
 import dk.jrpe.monitor.db.datasource.DataSource;
-import dk.jrpe.monitor.db.dao.httpaccess.to.HTTPAccessTO;
+import dk.jrpe.monitor.db.httpaccess.to.HTTPAccessTO;
 import java.util.List;
 
 /**

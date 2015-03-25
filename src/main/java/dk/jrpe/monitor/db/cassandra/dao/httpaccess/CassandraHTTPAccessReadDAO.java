@@ -1,8 +1,8 @@
-package dk.jrpe.monitor.db.dao.httpaccess;
+package dk.jrpe.monitor.db.cassandra.dao.httpaccess;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
-import dk.jrpe.monitor.db.datasource.cassandra.CassandraConnectionHandler;
+import dk.jrpe.monitor.db.cassandra.CassandraConnectionHandler;
 import java.util.List;
 
 /**

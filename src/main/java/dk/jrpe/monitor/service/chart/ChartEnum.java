@@ -1,6 +1,6 @@
 package dk.jrpe.monitor.service.chart;
 
-import dk.jrpe.monitor.db.dao.httpaccess.to.HTTPAccessTO;
+import dk.jrpe.monitor.db.httpaccess.to.HTTPAccessTO;
 import dk.jrpe.monitor.service.chart.json.PieChartJSONAdapter;
 import dk.jrpe.monitor.service.chart.json.RadarChartJSONAdapter;
 import java.util.List;

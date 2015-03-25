@@ -1,6 +1,6 @@
-package dk.jrpe.monitor.db.dao.httpaccess;
+package dk.jrpe.monitor.db.cassandra.dao.httpaccess;
 
-import dk.jrpe.monitor.db.datasource.cassandra.CassandraConnectionHandler;
+import dk.jrpe.monitor.db.cassandra.CassandraConnectionHandler;
 
 public class CassandraDAO {
 

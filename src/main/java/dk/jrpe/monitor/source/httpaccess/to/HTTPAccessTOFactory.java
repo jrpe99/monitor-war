@@ -1,6 +1,6 @@
 package dk.jrpe.monitor.source.httpaccess.to;
 
-import dk.jrpe.monitor.db.dao.httpaccess.to.HTTPAccessTO;
+import dk.jrpe.monitor.db.httpaccess.to.HTTPAccessTO;
 import dk.jrpe.monitor.source.httpaccess.simulate.SimulationConstants;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;

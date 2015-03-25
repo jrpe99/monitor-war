@@ -1,9 +1,9 @@
 package dk.jrpe.monitor.task;
 
 import com.datastax.driver.core.Row;
-import dk.jrpe.monitor.db.dao.httpaccess.CassandraHTTPAccessReadDAO;
+import dk.jrpe.monitor.db.cassandra.dao.httpaccess.CassandraHTTPAccessReadDAO;
 import dk.jrpe.monitor.db.datasource.DataSource;
-import dk.jrpe.monitor.db.dao.httpaccess.to.HTTPAccessTO;
+import dk.jrpe.monitor.db.httpaccess.to.HTTPAccessTO;
 import dk.jrpe.monitor.service.chart.ChartEnum;
 import dk.jrpe.monitor.service.chart.json.LineChartJSONAdapter;
 import dk.jrpe.monitor.websocket.WebSocketHelper;

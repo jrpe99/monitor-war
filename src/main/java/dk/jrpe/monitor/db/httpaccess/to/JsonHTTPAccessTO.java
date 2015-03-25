@@ -1,4 +1,4 @@
-package dk.jrpe.monitor.db.dao.httpaccess.to;
+package dk.jrpe.monitor.db.httpaccess.to;
 
 /**
  * @author Jörgen Persson

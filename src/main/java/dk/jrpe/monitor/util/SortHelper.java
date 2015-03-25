@@ -1,6 +1,6 @@
 package dk.jrpe.monitor.util;
 
-import dk.jrpe.monitor.db.dao.httpaccess.to.HTTPAccessTO;
+import dk.jrpe.monitor.db.httpaccess.to.HTTPAccessTO;
 import java.util.List;
 
 /**

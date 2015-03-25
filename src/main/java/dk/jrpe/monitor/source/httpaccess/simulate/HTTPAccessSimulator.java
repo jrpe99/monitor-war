@@ -2,11 +2,11 @@ package dk.jrpe.monitor.source.httpaccess.simulate;
 
 import java.util.Random;
 
-import dk.jrpe.monitor.db.dao.httpaccess.HTTPAccessDAO;
+import dk.jrpe.monitor.db.cassandra.dao.httpaccess.HTTPAccessDAO;
 import dk.jrpe.monitor.db.datasource.DataSource;
 import dk.jrpe.monitor.db.datasource.DataSourceFactory;
-import dk.jrpe.monitor.db.dao.httpaccess.to.HTTPAccessTO;
-import dk.jrpe.monitor.db.dao.httpaccess.to.JsonHTTPAccessTO;
+import dk.jrpe.monitor.db.httpaccess.to.HTTPAccessTO;
+import dk.jrpe.monitor.db.httpaccess.to.JsonHTTPAccessTO;
 import dk.jrpe.monitor.json.JSONMapper;
 import dk.jrpe.monitor.service.command.CommandHandler;
 import dk.jrpe.monitor.source.httpaccess.to.HTTPAccessTOFactory;

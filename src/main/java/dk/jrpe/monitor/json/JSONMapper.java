@@ -1,6 +1,6 @@
 package dk.jrpe.monitor.json;
 
-import dk.jrpe.monitor.db.dao.httpaccess.to.JsonHTTPAccessTO;
+import dk.jrpe.monitor.db.httpaccess.to.JsonHTTPAccessTO;
 import dk.jrpe.monitor.service.command.Command;
 import java.io.IOException;
 import java.util.logging.Level;

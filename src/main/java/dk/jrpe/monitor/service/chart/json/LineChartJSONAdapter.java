@@ -1,7 +1,7 @@
 package dk.jrpe.monitor.service.chart.json;
 
 import com.datastax.driver.core.Row;
-import dk.jrpe.monitor.db.dao.httpaccess.to.HTTPAccessTO;
+import dk.jrpe.monitor.db.httpaccess.to.HTTPAccessTO;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
