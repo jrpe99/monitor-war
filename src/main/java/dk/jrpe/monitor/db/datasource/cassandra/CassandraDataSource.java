@@ -71,11 +71,10 @@ public class CassandraDataSource implements DataSource {
     }
 
     private List<HTTPAccessTO> adaptHttpAccess(List<Row> list) {
-        List<HTTPAccessTO> adaptedList = list.stream().map(row -> 
+        return list.stream().map(row -> 
             new HTTPAccessTO.Builder()
                 .setIPAdress(row.getString("ip_address"))
                 .setRequests(row.getLong("requests")).build()
         ).collect(Collectors.toList());
-        return adaptedList;
     }
 }

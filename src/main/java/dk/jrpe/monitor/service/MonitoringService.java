@@ -77,9 +77,10 @@ public class MonitoringService {
     /**
      * Execute the command sent from the client
      * @param json
+     * @param session
      */
-    public void executeCommand(String json) {
-        CommandHandler.execute(json);
+    public void executeCommand(String json, Session session) {
+        CommandHandler.execute(json, session);
     }
     /**
      * Stop the monitoring timer.

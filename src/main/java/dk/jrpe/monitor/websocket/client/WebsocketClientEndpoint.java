@@ -1,6 +1,5 @@
 package dk.jrpe.monitor.websocket.client;
 
-import dk.jrpe.monitor.websocket.client.to.HTTPAccessDataWrapper;
 import java.io.IOException;
 import java.net.URI;
 import javax.websocket.ClientEndpoint;
@@ -57,9 +56,5 @@ public class WebsocketClientEndpoint {
     }
     public void send(String data) throws IOException, EncodeException {
         this.session.getBasicRemote().sendText(data);
-    }
-
-    public void send(HTTPAccessDataWrapper data) throws IOException, EncodeException {
-        this.session.getBasicRemote().sendObject(new Long("1"));
     }
 }

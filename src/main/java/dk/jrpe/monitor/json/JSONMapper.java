@@ -1,5 +1,6 @@
 package dk.jrpe.monitor.json;
 
+import dk.jrpe.monitor.db.dao.httpaccess.to.JsonHTTPAccessTO;
 import dk.jrpe.monitor.service.command.Command;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -17,6 +18,24 @@ public class JSONMapper<T> {
     public static Command toObject(String json, Class clazz) {
         try {
             return (Command)jsonMapper.readValue(json, clazz);
+        } catch (IOException ex) {
+            Logger.getLogger(JSONMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public static JsonHTTPAccessTO toJsonHTTPAccessTO(String json) {
+        try {
+            return (JsonHTTPAccessTO)jsonMapper.readValue(json, JsonHTTPAccessTO.class);
+        } catch (IOException ex) {
+            Logger.getLogger(JSONMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public static String toJSON(Object object) {
+        try {
+            return jsonMapper.writeValueAsString(object);
         } catch (IOException ex) {
             Logger.getLogger(JSONMapper.class.getName()).log(Level.SEVERE, null, ex);
         }

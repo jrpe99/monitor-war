@@ -1,5 +1,6 @@
 package dk.jrpe.monitor.service.command;
 
+import dk.jrpe.monitor.db.dao.httpaccess.to.JsonHTTPAccessTO;
 import dk.jrpe.monitor.json.JSONMapper;
 import java.io.IOException;
 import java.util.function.Consumer;
@@ -15,12 +16,22 @@ import org.codehaus.jackson.map.ObjectMapper;
 public class CommandHandler {
 
     /**
-     * Add concrete command implementations in the CommandEnum.
+     * Concrete command implementations.
      */
     public enum CommandEnum {
         CHART_SUBSCRIPTION((cmdHandler -> {
             JSONMapper.toObject(cmdHandler.getJson(), ChartSubscriptionCmd.class).execute(cmdHandler);
-        }));
+        })),
+        
+        
+        SEND_HTTP_SUCCESS_DATA((cmdHandler -> { new SendHttpSuccessDataCmd().execute(cmdHandler); })),
+
+        SEND_HTTP_SUCCESS_PER_MINUTE_DATA((cmdHandler -> { new SendHttpSuccessPerMinuteDataCmd().execute(cmdHandler); })),
+        
+        SEND_HTTP_FAILED_DATA((cmdHandler -> { new SendHttpFailedDataCmd().execute(cmdHandler); })),
+        
+        SEND_HTTP_FAILED_PER_MINUTE_DATA((cmdHandler -> { new SendHttpFailedPerMinuteDataCmd().execute(cmdHandler); }));
+        
         
         private final Consumer<CommandHandler> cmdHandler;
         
@@ -39,6 +50,8 @@ public class CommandHandler {
     private String json;
 
     private void executeConcreteCommand() {
+        System.out.println("Execute command:");
+        System.out.println(this.command.toString());
         this.command.execute(this);
     }
 
@@ -47,12 +60,13 @@ public class CommandHandler {
      * Example JSON:
      * {"command":"CHART_SUBSCRIPTION","chartSubscription":["LINE_SUCCESS_AND_FAILED", "PIE_SUCCESS"]}
      * @param json
+     * @param session
      * @throws IllegalArgumentException 
      *      if the JSON is null. 
      *      if the JSON does not contain a command.
      *      if the JSON cannot be parsed.
      */
-    public static void execute(String json) throws IllegalArgumentException {
+    public static void execute(String json, Session session) throws IllegalArgumentException {
         if(json == null || !json.contains("command")) {
             throw new IllegalArgumentException();
         }
@@ -67,6 +81,7 @@ public class CommandHandler {
                 json = null;
             }
             CommandHandler cmd = jsonMapper.readValue(commandString, CommandHandler.class);
+            cmd.setSession(session);
             cmd.setJson(json);
             cmd.executeConcreteCommand();
         } catch (IOException ex) {

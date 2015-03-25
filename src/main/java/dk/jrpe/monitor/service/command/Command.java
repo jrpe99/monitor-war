@@ -1,7 +1,5 @@
 package dk.jrpe.monitor.service.command;
 
-import dk.jrpe.monitor.service.command.CommandHandler;
-
 /**
  *
  * @author Jörgen Persson
@@ -9,7 +7,7 @@ import dk.jrpe.monitor.service.command.CommandHandler;
 public abstract class Command {
     private String command;
 
-    public abstract void execute(CommandHandler cmdMsg);
+    public abstract void execute(CommandHandler cmdHandler);
 
     public String getCommand() {
         return command;

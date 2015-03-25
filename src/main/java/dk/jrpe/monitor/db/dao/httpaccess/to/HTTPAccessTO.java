@@ -1,12 +1,10 @@
 package dk.jrpe.monitor.db.dao.httpaccess.to;
 
-import java.io.Serializable;
-
 /**
  * Immutable TO object for HTTP access data.
  * @author Jörgen Persson
  */
-public class HTTPAccessTO implements Serializable {
+public class HTTPAccessTO {
     private final String httpStatus;
     private final String ipAddress;
     private final String action;
@@ -48,6 +46,17 @@ public class HTTPAccessTO implements Serializable {
         return requests;
     }
 
+    public HTTPAccessTO(JsonHTTPAccessTO to) {
+        this.httpStatus = to.getHttpStatus();
+        this.ipAddress = to.getIpAddress();
+        this.date = to.getDate();
+        this.dateToMinute = to.getDateToMinute();
+        this.dateTime = to.getDateTime();
+        this.action = to.getAction();
+        this.url = to.getUrl();
+        this.requests = to.getRequests();
+    }
+    
     private HTTPAccessTO(Builder builder) {
         this.httpStatus = builder.httpStatus;
         this.ipAddress = builder.ipAddress;

@@ -34,7 +34,7 @@ public class HttpRequestsMonitorTask extends MonitoringTask {
     public void run() {
         try {
             List<HTTPAccessTO> successRowList = SortHelper.onRequestCount(this.getDataSouce().getHttpSuccess());
-            List<HTTPAccessTO> failedRowList = SortHelper.onRequestCount(this.getDataSouce().getHttpSuccess());
+            List<HTTPAccessTO> failedRowList = SortHelper.onRequestCount(this.getDataSouce().getHttpFailed());
 
             ChartEnum.PIE_SUCCESS.toJSON(successRowList);
             ChartEnum.RADAR_SUCCESS.toJSON(successRowList);

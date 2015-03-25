@@ -38,13 +38,11 @@ public class InMemoryDataBase {
     }
 
     public List<HTTPAccessTO> getHttpSuccess() {
-        List<HTTPAccessTO> list = new ArrayList<>();
-        this.httpSuccess.entrySet().stream()
+        return this.httpSuccess.entrySet().stream()
                 .map((entry) -> new HTTPAccessTO.Builder()
                         .setIPAdress(entry.getKey())
                         .setRequests(entry.getValue()).build())
                 .collect(Collectors.toList());
-        return list;
     }
 
     public List<HTTPAccessTO> getHttpFailed() {

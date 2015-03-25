@@ -6,9 +6,11 @@ import dk.jrpe.monitor.db.dao.httpaccess.HTTPAccessDAO;
 import dk.jrpe.monitor.db.datasource.DataSource;
 import dk.jrpe.monitor.db.datasource.DataSourceFactory;
 import dk.jrpe.monitor.db.dao.httpaccess.to.HTTPAccessTO;
+import dk.jrpe.monitor.db.dao.httpaccess.to.JsonHTTPAccessTO;
+import dk.jrpe.monitor.json.JSONMapper;
+import dk.jrpe.monitor.service.command.CommandHandler;
 import dk.jrpe.monitor.source.httpaccess.to.HTTPAccessTOFactory;
 import dk.jrpe.monitor.websocket.client.WebsocketClientEndpoint;
-import dk.jrpe.monitor.websocket.client.to.HTTPAccessDataWrapper;
 import java.net.URI;
 
 public class HTTPAccessSimulator {
@@ -38,18 +40,28 @@ public class HTTPAccessSimulator {
     
     public void simulateWithMonitorServer() {
         try {
-            WebsocketClientEndpoint client = new WebsocketClientEndpoint(new URI("ws://localhost:8080/Cassandra/monitordata"));
-            client.send("Send");
-            //while (true) {
+            WebsocketClientEndpoint client = new WebsocketClientEndpoint(new URI("ws://localhost:8080/Cassandra/monitor"));
+            Random random = new Random();
+            while (true) {
                 HTTPAccessTO to = HTTPAccessTOFactory.createSimulated();
+                JsonHTTPAccessTO jsonTo = new JsonHTTPAccessTO(to);
                 if (to.getHttpStatus().equals("200")) {
-                    client.send(new HTTPAccessDataWrapper(to, HTTPAccessDataWrapper.Type.HTTP_SUCCESS));
-                    client.send(new HTTPAccessDataWrapper(to, HTTPAccessDataWrapper.Type.HTTP_SUCCESS_PER_MINUTE));
+                    jsonTo.setCommand(CommandHandler.CommandEnum.SEND_HTTP_SUCCESS_DATA.toString());
+                    client.send(JSONMapper.toJSON(jsonTo));
+                    jsonTo.setCommand(CommandHandler.CommandEnum.SEND_HTTP_SUCCESS_PER_MINUTE_DATA.toString());
+                    client.send(JSONMapper.toJSON(jsonTo));
                 } else {
-                    client.send(new HTTPAccessDataWrapper(to, HTTPAccessDataWrapper.Type.HTTP_FAILED));
-                    client.send(new HTTPAccessDataWrapper(to, HTTPAccessDataWrapper.Type.HTTP_FAILED_PER_MINUTE));
+                    jsonTo.setCommand(CommandHandler.CommandEnum.SEND_HTTP_FAILED_DATA.toString());
+                    client.send(JSONMapper.toJSON(jsonTo));
+                    jsonTo.setCommand(CommandHandler.CommandEnum.SEND_HTTP_FAILED_PER_MINUTE_DATA.toString());
+                    client.send(JSONMapper.toJSON(jsonTo));
                 }
-            //}
+                int sleepTime = random.nextInt(500);
+                try {
+                    Thread.sleep(sleepTime);
+                } catch (InterruptedException e) {
+                }
+            }
         } catch (Throwable e) {
             e.printStackTrace();
         }

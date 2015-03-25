@@ -54,6 +54,6 @@ public class MonitoringEndpoint {
      */
     @OnMessage
     public void handleMessage(String json, Session session){
-        monitorService.executeCommand(json);
+        monitorService.executeCommand(json, session);
     }
 }
