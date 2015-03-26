@@ -18,18 +18,25 @@ public class CommandHandler {
      * Concrete command implementations.
      */
     public enum CommandEnum {
+
+        /**
+         * Command for subscribing to one or more charts. The subscription is
+         * stored in the web-socket session object, and only charts subscribed 
+         * for, are sent to the specific client (session).
+         */
         CHART_SUBSCRIPTION((cmdHandler -> {
             Command cmd = JSONMapper.toObject(cmdHandler.getJson(), ChartSubscriptionCmd.class);
             if(cmd != null) cmd.execute(cmdHandler);
         })),
         
-        
+        /**
+         * The following commands, are for sending HTTP access data to the monitoring 
+         * application. This is used when a client is not storing data directly in
+         * a common database, like when in memory database is used.
+         */
         SEND_HTTP_SUCCESS_DATA((cmdHandler -> { new SendHttpSuccessDataCmd().execute(cmdHandler); })),
-
         SEND_HTTP_SUCCESS_PER_MINUTE_DATA((cmdHandler -> { new SendHttpSuccessPerMinuteDataCmd().execute(cmdHandler); })),
-        
         SEND_HTTP_FAILED_DATA((cmdHandler -> { new SendHttpFailedDataCmd().execute(cmdHandler); })),
-        
         SEND_HTTP_FAILED_PER_MINUTE_DATA((cmdHandler -> { new SendHttpFailedPerMinuteDataCmd().execute(cmdHandler); }));
         
         
@@ -101,13 +108,11 @@ public class CommandHandler {
         return command;
     }
     /**
-     * Decode the JSON string to a concrete command object.
-     * Example JSON:
-     * {"command":"CHART_SUBSCRIPTION","chartSubscription"}
-     * @param commandJson
+     * Set the command. Should match one of the values in CommandEnum.
+     * @param command
      */
-    public void setCommand(String commandJson) {
-        this.command = CommandEnum.valueOf(commandJson);
+    public void setCommand(String command) {
+        this.command = CommandEnum.valueOf(command);
     }
 
     public String getJson() {

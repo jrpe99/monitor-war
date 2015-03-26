@@ -14,6 +14,7 @@ import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 
 /**
+ * Used by a client sending information the monitoring end-point.
  * @author Jörgen Persson
  */
 @ClientEndpoint
@@ -54,6 +55,7 @@ public class WebsocketClientEndpoint {
     public void onMessage(String message) {
         System.out.println(message);
     }
+    
     public void send(String data) throws IOException, EncodeException {
         this.session.getBasicRemote().sendText(data);
     }

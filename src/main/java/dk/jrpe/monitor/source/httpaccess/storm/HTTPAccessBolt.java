@@ -8,7 +8,6 @@ import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
-import dk.jrpe.monitor.db.cassandra.CassandraConnectionHandler;
 import dk.jrpe.monitor.db.cassandra.dao.httpaccess.HTTPAccessDAO;
 import dk.jrpe.monitor.db.datasource.DataSource;
 import dk.jrpe.monitor.db.datasource.DataSourceFactory;
