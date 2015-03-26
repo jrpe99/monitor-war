@@ -15,6 +15,6 @@ public class SendHttpSuccessDataCmd extends Command {
     
     @Override public void execute(CommandHandler cmdHandler) {
         JsonHTTPAccessTO to = JSONMapper.toJsonHTTPAccessTO(cmdHandler.getJson());
-        this.dataSource.updateHttpSuccess(new HTTPAccessTO(to));
+        if(to != null) this.dataSource.updateHttpSuccess(new HTTPAccessTO(to));
     }
 }

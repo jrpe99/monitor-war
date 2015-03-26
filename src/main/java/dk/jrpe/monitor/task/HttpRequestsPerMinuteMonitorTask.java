@@ -1,7 +1,5 @@
 package dk.jrpe.monitor.task;
 
-import com.datastax.driver.core.Row;
-import dk.jrpe.monitor.db.cassandra.dao.httpaccess.CassandraHTTPAccessReadDAO;
 import dk.jrpe.monitor.db.datasource.DataSource;
 import dk.jrpe.monitor.db.httpaccess.to.HTTPAccessTO;
 import dk.jrpe.monitor.service.chart.ChartEnum;
@@ -16,8 +14,8 @@ import java.util.logging.Logger;
 import javax.websocket.Session;
 
 /**
- * Task for monitoring HTTP total HTTP Success/Failure access per minute.
- * Reads the Cassandra database and generates output in JSON,
+ * Task for monitoring total HTTP Success/Failure access per minute.
+ * Reads the Datasource and generates output in JSON,
  * which is sent to all clients. The JSON is adapted for the
  * Chart.js library.
  * 

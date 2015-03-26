@@ -1,7 +1,6 @@
 package dk.jrpe.monitor.websocket.endpoint;
 
 import dk.jrpe.monitor.service.MonitoringService;
-import dk.jrpe.monitor.service.command.CommandHandler;
 import javax.websocket.CloseReason;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
@@ -48,7 +47,7 @@ public class MonitoringEndpoint {
     }
 
     /**
-     * Handle commands sent from the client.
+     * Handle commands sent from a client.
      * @param json
      * @param session
      */

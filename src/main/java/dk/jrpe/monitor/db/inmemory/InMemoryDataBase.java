@@ -1,8 +1,6 @@
 package dk.jrpe.monitor.db.inmemory;
 
-import dk.jrpe.monitor.db.datasource.DataSource;
 import dk.jrpe.monitor.db.httpaccess.to.HTTPAccessTO;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentNavigableMap;
@@ -91,8 +89,7 @@ public class InMemoryDataBase {
 
     private List<HTTPAccessTO> getHttpAccessPerMinute(ConcurrentNavigableMap<String, Long> periodMap) {
         return periodMap.values().stream()
-                .map((value) -> new HTTPAccessTO.Builder()
-                        .setRequests(value).build())
-                .collect(Collectors.toList());
+            .map((value) -> new HTTPAccessTO.Builder().setRequests(value).build())
+            .collect(Collectors.toList());
     }    
 }

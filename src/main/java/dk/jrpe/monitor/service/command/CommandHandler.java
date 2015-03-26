@@ -1,6 +1,5 @@
 package dk.jrpe.monitor.service.command;
 
-import dk.jrpe.monitor.db.httpaccess.to.JsonHTTPAccessTO;
 import dk.jrpe.monitor.json.JSONMapper;
 import java.io.IOException;
 import java.util.function.Consumer;
@@ -20,7 +19,8 @@ public class CommandHandler {
      */
     public enum CommandEnum {
         CHART_SUBSCRIPTION((cmdHandler -> {
-            JSONMapper.toObject(cmdHandler.getJson(), ChartSubscriptionCmd.class).execute(cmdHandler);
+            Command cmd = JSONMapper.toObject(cmdHandler.getJson(), ChartSubscriptionCmd.class);
+            if(cmd != null) cmd.execute(cmdHandler);
         })),
         
         

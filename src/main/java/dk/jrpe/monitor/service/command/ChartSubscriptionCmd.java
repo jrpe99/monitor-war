@@ -1,6 +1,5 @@
 package dk.jrpe.monitor.service.command;
 
-import dk.jrpe.monitor.json.JSONMapper;
 import dk.jrpe.monitor.service.chart.ChartSubscriptionHandler;
 import java.util.List;
 

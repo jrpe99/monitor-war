@@ -6,7 +6,6 @@ import dk.jrpe.monitor.db.cassandra.dao.httpaccess.CassandraHTTPAccessWriteDAO;
 import com.datastax.driver.core.Row;
 import dk.jrpe.monitor.db.datasource.DataSource;
 import dk.jrpe.monitor.db.httpaccess.to.HTTPAccessTO;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
